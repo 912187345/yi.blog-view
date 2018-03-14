@@ -5,6 +5,8 @@ import axios from 'axios';
 Vue.use(Vuex);
 
 import * as types from './blogType';
+import commom from '../common';
+let getApi = commom.getApi;
 const token = localStorage.getItem('token');
 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 export default new Vuex.Store({
@@ -22,6 +24,9 @@ export default new Vuex.Store({
         },
         setBlogList(state, data){
             state.blogList = data;
+        },
+        setBlog(state, data){
+            state.blog = data;
         }
     },
     actions:{

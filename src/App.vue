@@ -9,7 +9,20 @@
   export default {
     data(){
       return {
-        showbol:true
+        showbol:false
+      }
+    },
+    created(){
+    },
+    watch:{
+      $route(to,from){
+        console.log(from);
+        let notShow = ['logon','register']
+        if( notShow.indexOf(to.name) !== -1){
+          this.showbol = false;
+        }else{
+          this.showbol = true;
+        }
       }
     },
     components:{

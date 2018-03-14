@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <el-input v-model="userName" placeholder="请输入用户名"></el-input>
-    <el-input v-model="pwd" placeholder="请输入密码" :disabled='userName?false:true'></el-input>
-    <el-button type="primary" @click='logon()' plain>登录</el-button>
-    <router-link to="/register">
-      <el-button type="primary" @click='logon()' plain>注册</el-button>
-    </router-link>
+  <div class="logonWrap">
+    <div class="content">
+      <el-input v-model="userName" placeholder="请输入用户名"></el-input>
+      <el-input v-model="pwd" placeholder="请输入密码" :disabled='userName?false:true'></el-input>
+      <el-button type="primary" @click='logon()' plain>登录</el-button>
+      <router-link to="/register">
+        <el-button type="primary" @click='logon()' plain>注册</el-button>
+      </router-link>
+    </div>
   </div>
 </template>
 <script>
@@ -20,6 +22,8 @@
         respone:'',
         errMsg:''
       }
+    },
+    created(){
     },
     mounted(){
     },
@@ -56,3 +60,20 @@
     }
   }
 </script>
+<style lang='scss' scoped>
+.logonWrap{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background:url('/icon/joker.jpg');
+  .content{
+    width: 300px;
+    height: 300px;
+    background: #ffffff;
+    border-radius: 20px;
+    @include center;
+  }
+}
+</style>

@@ -61,7 +61,7 @@ export default {
         }
     },
     mounted() {
-      console.log('this is current quill instance object', this.editor)
+      // console.log('this is current quill instance object', this.editor)
     },
     components: {
         quillEditor

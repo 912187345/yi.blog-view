@@ -7,7 +7,7 @@
             标题：<span>{{ blog.title }}</span>
         </div>
         <div>
-            内容：<div v-html="blog.text">
+            内容：<div v-html="blog.content">
                 </div>
         </div>
         <div>
@@ -45,38 +45,20 @@
 
 <script>
 import messageBoard from '../messageBoard/messageBoard';
-import {mapState} from 'vuex';
+import {mapState,mapActions} from 'vuex';
 export default {
     data(){
         return {
             id:this.$route.query.blogId,
-            blog:{},
-            text:''
+            text:'',
+            blog:{}
         }
     },
     computed:{
         ...mapState(['userToken','userInfo'])
     },
     created(){
-        let params = {
-            url:'/get-blog-by-id',
-            param:{
-                id:this.id
-            }
-        }
-        this.$getApi.post(params)
-        .then((data)=>{
-            if( data.status === 'success' ){
-                this.blog = data.data;
-                console.log(this.blog);
-            }else{
-
-                this.$notify.error({
-                title: '错误',
-                message: '出错，请稍后重试'
-              });
-            }
-        })
+        this.getBlogById(this.id);
     },
     methods:{
         sendComments(){
@@ -127,12 +109,12 @@ export default {
                 .then(rst=>{
                     if( rst.status === 'success' ){
 
-                        console.log(rst);
+                        console.log(this.blog);
                     }
                 })
             }).catch((err) => {
 
-                this.$message({
+                this.$message({ 
                     type: 'info',
                     message: err
                 });       
@@ -165,17 +147,28 @@ export default {
             },err=>{
                 console.log(err);
             })
+        },
+        getBlogById(id){
+            let params = {
+                url:'/get-blog-by-id',
+                param:{
+                    id:id
+                }
+            }
+            this.$getApi.post(params)
+            .then((data)=>{
+                if(data.status === 'success'){
+                    this.blog = data.data;
+                }
+            })
         }
     },
     components:{
         messageBoard
-    },
-    destroyed(){
-        this.blog = {};
     }
 }
 </script>
 
-<style>
+<style lang='scss'>
 
 </style>
