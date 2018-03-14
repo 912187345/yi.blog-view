@@ -1,12 +1,19 @@
 <template>
   <div class="logonWrap">
     <div class="content">
-      <el-input v-model="userName" placeholder="请输入用户名"></el-input>
+      <div class="title">
+        易.博客
+      </div>
+      <div class="userName">
+        <el-input v-model="userName" placeholder="请输入用户名"></el-input>
+      </div>
       <el-input v-model="pwd" placeholder="请输入密码" :disabled='userName?false:true'></el-input>
-      <el-button type="primary" @click='logon()' plain>登录</el-button>
-      <router-link to="/register">
-        <el-button type="primary" @click='logon()' plain>注册</el-button>
-      </router-link>
+      <div class="btnWrap">
+        <el-button type="primary" @click='logon()' plain>登录</el-button>
+        <router-link to="/register">
+          <el-button type="primary" @click='logon()' plain>注册</el-button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -67,13 +74,32 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background:url('/icon/joker.jpg');
+  
   .content{
-    width: 300px;
+    width: 350px;
     height: 300px;
+    padding: 0 30px;
     background: #ffffff;
     border-radius: 20px;
+    position: relative;
+    .userName{
+      margin: 20px 0 18px;
+    }
     @include center;
+  }
+  .btnWrap{
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    &>button{
+      margin-right: 20px;
+    }
+  }
+  .title{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 20px;
   }
 }
 </style>

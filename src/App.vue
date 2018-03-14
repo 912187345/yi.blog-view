@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div id="bg"></div>
     <top v-if='showbol'></top>
     <router-view/>
   </div>
@@ -16,7 +17,6 @@
     },
     watch:{
       $route(to,from){
-        console.log(from);
         let notShow = ['logon','register']
         if( notShow.indexOf(to.name) !== -1){
           this.showbol = false;
@@ -30,3 +30,12 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+#bg{
+  position: fixed;
+  z-index: -1;
+  background:url('/icon/joker.jpg');
+  width: 100%;
+  height: 100%;
+}
+</style>

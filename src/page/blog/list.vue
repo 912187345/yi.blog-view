@@ -1,10 +1,15 @@
 <template>
-  <div>
-        <ul class="blog-list">
-            <li v-for='item in mesList' :key="item.token" @click='goDetail(item)'>
-                博客标题&nbsp;&nbsp;&nbsp;{{ item.title }}
+  <div class="blog-list">
+      <el-card class="box-card">
+        <ul>
+            <li class="item" v-for='item in mesList' :key="item.token" @click='goDetail(item)'>
+                <h3>{{ item.title }}</h3>
+                <div>
+                    <span>发布者</span>
+                </div>
             </li>
         </ul>
+      </el-card>
   </div>
 </template>
 
@@ -53,6 +58,24 @@ export default {
 }
 </script>
 
-<style>
+<style lang='scss' scoped>
+.blog-list{
+    background: #ffffff;
+    width: $centerW;
+    margin: 0 auto;
+    font-size: 16px;
+    h3{
+        font-size: 20px;
+        padding: 20px;
+    }
+    .item{
+        cursor: pointer;
+        transition: 0.2s;
+        &:hover{
+            color: #ffffff;
+            background: skyblue;    
+        }
+    }
 
+}
 </style>
