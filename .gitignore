@@ -1,0 +1,12 @@
+##############################
+## Folders                  ##
+##############################
+node_modules
+.vscode
+ 
+##############################
+## Netbeans conf            ##
+##############################
+nb-configuration.xml
+nbactions.xml
+.babelrc
