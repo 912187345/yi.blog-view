@@ -1,12 +1,16 @@
 <template>
-    <div>
-        <router-link to="/editorBlog">
-            写博客
-        </router-link>
+    <div id="top">
         <div>
-            name:{{ userInfo.username }}
+            退出
         </div>
-        <a href="javascript:;" @click="logout">退出登录</a>
+        <div class="header">
+            头像
+        </div>
+        <div class="writeBtn">
+            <router-link to="/editorBlog">
+                写博客
+            </router-link>
+        </div>
     </div>
 </template>
 
@@ -29,6 +33,17 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='scss'>
+#top{
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 10px 30px;
+    min-width: 1000px;
+}
+.writeBtn{
+    margin-right: 20px;
+    >a{   
+        color: #999999;
+    }
+}
 </style>

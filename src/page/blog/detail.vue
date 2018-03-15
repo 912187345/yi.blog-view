@@ -1,9 +1,6 @@
 <template>
     <div>
         <div>
-            id: <span>{{ blog.blogId }}</span>
-        </div>
-        <div>
             标题：<span>{{ blog.title }}</span>
         </div>
         <detail-content :content="blog.content"></detail-content>
@@ -47,7 +44,7 @@ import {mapState,mapActions} from 'vuex';
 export default {
     data(){
         return {
-            id:this.$route.query.blogId,
+            id:this.$route.params.blogId,
             text:'',
             blog:{}
         }

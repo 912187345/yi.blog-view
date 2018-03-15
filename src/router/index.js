@@ -14,6 +14,7 @@ import store from '../store/index';
 Vue.use(Router)
 
 const route =  new Router({
+  mode:'history',
   routes: [
     { path: '/', redirect: '/logon' },
     {

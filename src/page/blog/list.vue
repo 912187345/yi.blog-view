@@ -38,7 +38,7 @@ export default {
     },
     methods:{
         goDetail(item){
-            this.$router.push({name:'blogDetail',query:{blogId:item.blogId}})
+            this.$router.push({name:'blogDetail',params:{blogId:item.blogId}})
         },
     },
     mounted(){
