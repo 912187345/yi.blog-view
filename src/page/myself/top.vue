@@ -1,6 +1,12 @@
 <template>
     <div id="top">
         <div>
+            设置
+        </div>
+        <div>
+            我的博客
+        </div>
+        <div>
             退出
         </div>
         <div class="header">
@@ -38,7 +44,8 @@ export default {
     display: flex;
     flex-direction: row-reverse;
     padding: 10px 30px;
-    min-width: 1000px;
+    width: $centerW;
+    margin: 0 auto;
 }
 .writeBtn{
     margin-right: 20px;
