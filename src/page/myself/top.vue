@@ -6,6 +6,7 @@
         <div>
             name:{{ userInfo.username }}
         </div>
+        <a href="javascript:;" @click="logout">退出登录</a>
     </div>
 </template>
 
@@ -19,6 +20,11 @@ export default {
     },
     mounted(){
         // console.log( this.$store.state.userInfo )
+    },
+    methods:{
+        logout(){
+            alert('退出成功');
+        }
     }
 }
 </script>

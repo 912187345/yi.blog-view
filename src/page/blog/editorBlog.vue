@@ -31,14 +31,12 @@ export default {
             }
             this.$getApi.post(params)
             .then(data=>{
-                this.$message('提交失败，请稍后重试');
                 if( data.status === 'success' ){
                     let blog = {
                         title:this.title,
                         content:this.content
                     }
-                    this.$store.commit('setBlog',blog);
-                    this.$router.push({name:'blogDetail'});
+                    this.$router.push({name:'blogDetail',query:{blogId:data.data.blogId}});
                 }else{
                     this.$message('提交失败，请稍后重试');
                 }

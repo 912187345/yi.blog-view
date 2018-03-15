@@ -6,10 +6,7 @@
         <div>
             标题：<span>{{ blog.title }}</span>
         </div>
-        <div>
-            内容：<div v-html="blog.content">
-                </div>
-        </div>
+        <detail-content :content="blog.content"></detail-content>
         <div>
             发表时间：<span>{{ blog.date }}</span>
         </div>
@@ -45,6 +42,7 @@
 
 <script>
 import messageBoard from '../messageBoard/messageBoard';
+import detailContent from './detailContent';
 import {mapState,mapActions} from 'vuex';
 export default {
     data(){
@@ -164,7 +162,8 @@ export default {
         }
     },
     components:{
-        messageBoard
+        messageBoard,
+        detailContent
     }
 }
 </script>

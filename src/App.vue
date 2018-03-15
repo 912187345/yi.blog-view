@@ -10,15 +10,20 @@
   export default {
     data(){
       return {
-        showbol:false
+        showbol:false,
+        notShow:['logon','register']
       }
     },
     created(){
+      if( this.notShow.indexOf(this.$route.name) !== -1){
+          this.showbol = false;
+        }else{
+          this.showbol = true;
+        }
     },
     watch:{
       $route(to,from){
-        let notShow = ['logon','register']
-        if( notShow.indexOf(to.name) !== -1){
+        if( this.notShow.indexOf(to.name) !== -1){
           this.showbol = false;
         }else{
           this.showbol = true;
@@ -34,7 +39,8 @@
 #bg{
   position: fixed;
   z-index: -1;
-  background:url('/icon/joker.jpg');
+  // background:url('/icon/joker.jpg');
+  background-size: 100% 100%;
   width: 100%;
   height: 100%;
 }

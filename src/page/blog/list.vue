@@ -1,15 +1,24 @@
 <template>
   <div class="blog-list">
-      <el-card class="box-card">
-        <ul>
-            <li class="item" v-for='item in mesList' :key="item.token" @click='goDetail(item)'>
-                <h3>{{ item.title }}</h3>
-                <div>
-                    <span>发布者</span>
+    <ul>
+        <li class="item" v-for='item in mesList' :key="item.blogId" @click='goDetail(item)'>
+            <h3>{{ item.title }}</h3>
+            <div class="content clearfix">
+                <div class="user">
+                    <span>作者:</span>
+                    <span>{{ item.user.username }}</span>
                 </div>
-            </li>
-        </ul>
-      </el-card>
+                <div class="date">
+                    <span>发布时间:</span>
+                    <span>{{ item.date }}</span>
+                </div>
+                <div class="comment">
+                    <img src="/icon/comment.png" class="commentIcon" alt="">
+                    <span>{{ item.commentsLength }}</span>
+                </div>
+            </div>
+        </li>
+    </ul>
   </div>
 </template>
 
@@ -38,9 +47,8 @@ export default {
         }
         this.$getApi.post(params)
         .then((data)=>{
-
+            console.log(data);
             if( data.status = 'success' ){
-
                 this.$store.commit('setBlogList',data.data);
 
             } else {
@@ -66,16 +74,42 @@ export default {
     font-size: 16px;
     h3{
         font-size: 20px;
-        padding: 20px;
     }
     .item{
+        position: relative;
         cursor: pointer;
+        padding: 10px;
+        border: 1px solid gray;
+        border-radius: 6px;
+        margin-bottom: 4px;
         transition: 0.2s;
         &:hover{
             color: #ffffff;
-            background: skyblue;    
+            background: skyblue;   
+            border-color: skyblue; 
         }
     }
-
+    .commentIcon{
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+.content{
+    margin-top: 10px;
+    .user{
+        float: left;
+    }
+    .comment,.date{
+        float: right;
+    }
+    .comment{
+        margin-right: 20px;
+    }
+    >div>span{
+        display: inline-block;
+        vertical-align: middle;
+    }
 }
 </style>

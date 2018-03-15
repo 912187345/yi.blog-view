@@ -2,7 +2,7 @@
   <div class="logonWrap">
     <div class="content">
       <div class="title">
-        易.博客
+        <!-- 易.博客 -->
       </div>
       <div class="userName">
         <el-input v-model="userName" placeholder="请输入用户名"></el-input>
