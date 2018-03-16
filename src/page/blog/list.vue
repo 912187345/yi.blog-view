@@ -38,7 +38,7 @@ export default {
     },
     methods:{
         goDetail(item){
-            this.$router.push({name:'blogDetail',query:{blogId:item.blogId}})
+            this.$router.push({name:'blogDetail',params:{blogId:item.blogId}})
         },
     },
     mounted(){
@@ -78,11 +78,12 @@ export default {
     .item{
         position: relative;
         cursor: pointer;
-        padding: 10px;
+        padding: 16px;
         border: 1px solid gray;
         border-radius: 6px;
-        margin-bottom: 4px;
+        margin-bottom: 10px;
         transition: 0.2s;
+        box-shadow: 0px 0px 10px 0px skyblue inset;
         &:hover{
             color: #ffffff;
             background: skyblue;   
@@ -97,7 +98,7 @@ export default {
     }
 }
 .content{
-    margin-top: 11px;
+    margin-top: 20px;
     .user{
         float: left;
     }
