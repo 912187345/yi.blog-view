@@ -4,6 +4,8 @@ import Router from 'vue-router';
 
 import logon from '../page/logon/logon'
 import register from '../page/logon/register'
+import setting from '../page/myself/setting'
+
 import msgBoard  from '../page/messageBoard/messageBoard'
 
 import blogDetail from '../page/blog/detail'
@@ -46,6 +48,11 @@ const route =  new Router({
       path:'/editorBlog',
       name:'editorBlog',
       component:editorBlog
+    },
+    {
+      path:'/setting',
+      name:'setting',
+      component:setting
     }
   ]
 })
