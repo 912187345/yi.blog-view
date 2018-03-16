@@ -16,7 +16,7 @@ import store from '../store/index';
 Vue.use(Router)
 
 const route =  new Router({
-  mode:'history',
+  mode:'hash',
   routes: [
     { path: '/', redirect: '/logon' },
     {

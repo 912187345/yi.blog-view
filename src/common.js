@@ -11,7 +11,7 @@ var axiosFn = (method, params)=>{
         let config = params.param;
         config = {
             method:method,
-            url:params.url
+            url: '/api/' + params.url
         }
         if( method === 'GET' ){
     

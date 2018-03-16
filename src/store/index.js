@@ -27,13 +27,17 @@ export default new Vuex.Store({
         },
         setBlog(state, data){
             state.blog = data;
+        },
+        setUserHead(state, data){
+            state.userInfo.headImg = data;
         }
     },
     actions:{
 
     },
     getters:{
-        token(state){
+        userInfo(state){
+            return localStorage.setItem('userInfo',JSON.stringify(state.userInfo));
         }
     }
 })
