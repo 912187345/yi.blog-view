@@ -97,7 +97,7 @@ export default {
     }
 }
 .content{
-    margin-top: 10px;
+    margin-top: 11px;
     .user{
         float: left;
     }
