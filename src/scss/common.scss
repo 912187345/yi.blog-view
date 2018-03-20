@@ -7,3 +7,8 @@ $centerW:1000px;
     bottom: 0;
     margin: auto;
 }
+@mixin headCR{
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
+}

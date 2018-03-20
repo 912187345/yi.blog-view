@@ -5,7 +5,8 @@
             <h3>{{ item.title }}</h3>
             <div class="content clearfix">
                 <div class="user">
-                    <span>作者:</span>
+                    <span class="headImg" :style="{backgroundImage:`url(${item.user.headImg})`}">
+                    </span>
                     <span>{{ item.user.username }}</span>
                 </div>
                 <div class="date">
@@ -79,7 +80,7 @@ export default {
         position: relative;
         cursor: pointer;
         padding: 16px;
-        border: 1px solid gray;
+        border: 1px solid skyblue;
         border-radius: 6px;
         margin-bottom: 10px;
         transition: 0.2s;
@@ -111,6 +112,11 @@ export default {
     >div>span{
         display: inline-block;
         vertical-align: middle;
+    }
+    .headImg{
+        @include headCR;
+        width: 30px;
+        height: 30px;
     }
 }
 </style>

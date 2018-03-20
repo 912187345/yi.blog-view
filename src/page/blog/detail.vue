@@ -75,7 +75,7 @@ export default {
                 }
             })
         },
-        reply(item,index){
+        reply(item,type,index){
             this.$prompt('请输入您要回复的内容', '回复内容', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -103,8 +103,11 @@ export default {
                 this.$getApi.post(params)
                 .then(rst=>{
                     if( rst.status === 'success' ){
-
-                        console.log(this.blog);
+                        if( type === 'reply' ){
+                            this.blog.comments[index].replycomments.push(params.param);
+                        }else{
+                            this.blog.comments[index].replycomments.push(params.param);
+                        }
                     }
                 })
             }).catch((err) => {
@@ -154,6 +157,7 @@ export default {
             .then((data)=>{
                 if(data.status === 'success'){
                     this.blog = data.data;
+                    console.log(this.blog);
                 }
             })
         }

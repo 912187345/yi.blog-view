@@ -36,7 +36,7 @@ export default {
                         title:this.title,
                         content:this.content
                     }
-                    this.$router.push({name:'blogDetail',query:{blogId:data.data.blogId}});
+                    this.$router.push({name:'blogDetail',params:{blogId:data.data.blogId}});
                 }else{
                     this.$message('提交失败，请稍后重试');
                 }
