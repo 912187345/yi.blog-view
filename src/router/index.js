@@ -5,6 +5,7 @@ import Router from 'vue-router';
 import logon from '../page/logon/logon'
 import register from '../page/logon/register'
 import setting from '../page/myself/setting'
+import myBlog from '../page/myself/myBlog'
 
 import msgBoard  from '../page/messageBoard/messageBoard'
 
@@ -53,6 +54,11 @@ const route =  new Router({
       path:'/setting',
       name:'setting',
       component:setting
+    },
+    {
+      path:'/myBlog',
+      name:'myBlog',
+      component:myBlog
     }
   ]
 })

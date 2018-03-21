@@ -1,30 +1,23 @@
 <template>
   <div class="blog-list">
     <ul>
-        <li class="item" v-for='item in mesList' :key="item.blogId" @click='goDetail(item)'>
-            <h3>{{ item.title }}</h3>
-            <div class="content clearfix">
-                <div class="user">
-                    <span class="headImg" :style="{backgroundImage:`url(${item.user.headImg})`}">
-                    </span>
-                    <span>{{ item.user.username }}</span>
-                </div>
-                <div class="date">
-                    <span>发布时间:</span>
-                    <span>{{ item.date }}</span>
-                </div>
-                <div class="comment">
-                    <img src="/icon/comment.png" class="commentIcon" alt="">
-                    <span>{{ item.commentsLength }}</span>
-                </div>
-            </div>
-        </li>
+        <template v-for='item in mesList'>
+            <blogListItem
+                :key="item.blogId"
+                :title="item.title"
+                :user="item.user"
+                :date="item.date"
+                :commentsLength="item.commentsLength"
+                @click='goDetail(item)'>
+            </blogListItem>
+        </template>
     </ul>
   </div>
 </template>
 
 <script>
 import messageBoard from '../messageBoard/messageBoard'
+import blogListItem from '../../components/blogListItem'
 import {mapState} from 'vuex'
 export default {
     data(){
@@ -62,7 +55,8 @@ export default {
         })
     },
     components:{
-        messageBoard
+        messageBoard,
+        blogListItem
     }
 }
 </script>
@@ -73,50 +67,5 @@ export default {
     width: $centerW;
     margin: 0 auto;
     font-size: 16px;
-    h3{
-        font-size: 20px;
-    }
-    .item{
-        position: relative;
-        cursor: pointer;
-        padding: 16px;
-        border: 1px solid skyblue;
-        border-radius: 6px;
-        margin-bottom: 10px;
-        transition: 0.2s;
-        box-shadow: 0px 0px 10px 0px skyblue inset;
-        &:hover{
-            color: #ffffff;
-            background: skyblue;   
-            border-color: skyblue; 
-        }
-    }
-    .commentIcon{
-        width: 20px;
-        height: 20px;
-        display: inline-block;
-        vertical-align: middle;
-    }
-}
-.content{
-    margin-top: 20px;
-    .user{
-        float: left;
-    }
-    .comment,.date{
-        float: right;
-    }
-    .comment{
-        margin-right: 20px;
-    }
-    >div>span{
-        display: inline-block;
-        vertical-align: middle;
-    }
-    .headImg{
-        @include headCR;
-        width: 30px;
-        height: 30px;
-    }
 }
 </style>

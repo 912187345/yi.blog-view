@@ -47,7 +47,7 @@
         }
         this.$getApi.post(params)
           .then(( data )=>{
-            console.log(data);
+            console.log('logon',data);
             if(data.status === 'success'){
               this.$store.commit('setUserInfo',data.data);
               this.$router.push({name:'blogList'});

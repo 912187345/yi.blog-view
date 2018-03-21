@@ -19,9 +19,9 @@
                             @click="deleteComments(item)">
                         删除</a>
                         <ul>
-                            <li v-for="(replyItem,i) in item.replycomments" :key="replyItem.commentId">
+                            <li v-for="(replyItem) in item.replycomments" :key="replyItem.commentId">
                                 {{ replyItem.fromName }} 回复 {{ replyItem.toName }} : {{ replyItem.replyText }}
-                                时间: {{ replyItem.replyDate }} <a href="javascript:;" @click="reply(replyItem,'reply',i)">回复</a>
+                                时间: {{ replyItem.replyDate }} <a href="javascript:;" @click="reply(replyItem,'reply',j)">回复</a>
                             </li>
                         </ul>
                     </li>
@@ -103,11 +103,13 @@ export default {
                 this.$getApi.post(params)
                 .then(rst=>{
                     if( rst.status === 'success' ){
-                        if( type === 'reply' ){
-                            this.blog.comments[index].replycomments.push(params.param);
-                        }else{
-                            this.blog.comments[index].replycomments.push(params.param);
+                        if(!this.blog.comments[index].replycomments){
+                            this.blog.comments[index].replycomments = [];
                         }
+                        if( type === 'reply' ){
+                            // let
+                        }
+                        this.blog.comments[index].replycomments.push(params.param);
                     }
                 })
             }).catch((err) => {

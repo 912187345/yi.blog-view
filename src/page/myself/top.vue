@@ -1,13 +1,13 @@
 <template>
-    <div id="top">
+    <div id="top" class="top">
+        <div>
+            退出
+        </div>
         <div @click="goSetting">
             设置
         </div>
-        <div>
+        <div @click="goMyBlog">
             我的博客
-        </div>
-        <div>
-            退出
         </div>
         <div class="header" :style="{backgroundImage:`url(${userInfo.headImg})`}">
         </div>
@@ -33,6 +33,9 @@ export default {
         },
         goSetting(){
             this.$router.push({name:'setting'})
+        },
+        goMyBlog(){
+            this.$router.push({name:'myBlog'})
         }
     }
 }
@@ -46,6 +49,11 @@ export default {
     width: $centerW;
     margin: 0 auto;
     align-items:center;
+}
+.top{
+    >div{
+        margin-right: 10px;
+    }
 }
 .writeBtn{
     margin-right: 20px;
