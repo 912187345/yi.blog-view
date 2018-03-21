@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="settingWrap">
         <el-upload
             class="upload-demo"
             drag
@@ -35,6 +35,7 @@ import {mapState} from 'vuex'
     },
     methods: {
         uploadSuccess(res,file){
+            console.log(res);
             if( res.status === 'success' ){
                 this.$store.commit('setUserHead',res.data.headImg);
                 this.$notify({
@@ -53,7 +54,7 @@ import {mapState} from 'vuex'
   }
 </script>
 
-<style>
+<style lang='scss'>
 .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
@@ -76,5 +77,9 @@ import {mapState} from 'vuex'
     width: 178px;
     height: 178px;
     display: block;
+}
+.settingWrap{
+    width: $centerW;
+    margin: 0 auto;
 }
 </style>
