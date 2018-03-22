@@ -18,8 +18,8 @@
                 <span>{{ commentsLength }}</span>
             </div>
             <div class="edit" v-if='edit === true'>
-                <span @click.stop="$emit('edit')">修改</span>
-                <span @click.stop="$emit('delete')">删除</span>
+                <span @click.stop="$emit('edit')" class="editBtn">修改</span>
+                <span @click.stop="$emit('delete')" class="deleteBtn">删除</span>
             </div>
         </div>
     </li>
@@ -33,6 +33,7 @@ export default {
 
 <style lang="scss" scoped>
 .blog-list-item{
+    perspective:100px;
     position: relative;
     cursor: pointer;
     padding: 16px;
@@ -44,7 +45,8 @@ export default {
     &:hover{
         color: #ffffff;
         background: skyblue;   
-        border-color: skyblue; 
+        border-color: skyblue;
+        transform: translate3d(-6px,-6px,10px);
     }
     >h3{
         font-size: 20px;
@@ -74,6 +76,19 @@ export default {
             @include headCR;
             width: 30px;
             height: 30px;
+        }
+    }
+    .edit{
+        position: absolute;
+        right: 36px;
+        top: 20px;
+        .editBtn{
+            margin-right: 20px;
+        }
+        >span{
+            &:hover{
+                transform: scale3d(1.1,1.1,1.1)
+            }
         }
     }
 }

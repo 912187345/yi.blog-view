@@ -63,9 +63,6 @@ export default {
 
 <style lang='scss' scoped>
 .blog-list{
-    background: #ffffff;
-    width: $centerW;
-    margin: 0 auto;
-    font-size: 16px;
+    @include blogList;
 }
 </style>

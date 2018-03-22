@@ -12,3 +12,11 @@ $centerW:1000px;
     background-size: cover;
     background-position: center center;
 }
+
+@mixin blogList{
+    width: $centerW;
+    margin: 0 auto;
+    background: #ffffff;
+    perspective: 700px;
+    font-size: 16px;
+}

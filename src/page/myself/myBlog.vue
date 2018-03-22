@@ -1,5 +1,5 @@
 <template>
-  <ul>
+  <ul class="myBlog-list">
       <template v-for="item in myBlogList" v-if='myBlogList.length'>
           <blogListItem
                 :key="item.blogId"
@@ -71,6 +71,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.myBlog-list{
+    @include blogList;
+}
 </style>

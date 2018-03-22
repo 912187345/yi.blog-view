@@ -53,6 +53,7 @@ export default {
 .top{
     >div{
         margin-right: 10px;
+        cursor: pointer;
     }
 }
 .writeBtn{
