@@ -44,6 +44,11 @@ export default {
             this.$getApi.post(params)
             .then(data=>{
                 if( data.status === 'success' ){
+                    if( this.edit === true ){
+                        var blogId = this.$route.params.blogId;
+                    }else{
+                        var blogId = data.data.blogId
+                    }
                     this.$router.push({name:'blogDetail',params:{blogId:data.data.blogId}});
                 }else{
                     this.$message('提交失败，请稍后重试');
