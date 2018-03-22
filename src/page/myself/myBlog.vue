@@ -26,10 +26,23 @@ import blogListItem from '../../components/blogListItem'
 export default {
     methods:{
         editBlog(item){
-            console.log(item);
+            this.$router.push({name:'editorBlog',params:{blogId:item.blogId,edit:true}})
         },
         deleteBlog(item){
-            console.log(item);
+            alert('delete');
+            let params = {
+                url:'/delete-blog',
+                param:{
+                    blogId:item.blogId
+                }
+            }
+            this.$getApi.post(params)
+            .then((rst)=>{
+                console.log(rst);
+            })
+        },
+        goDetail(item){
+            this.$router.push({name:'blogDetail',params:{blogId:item.blogId}})
         }
     },
     data(){
@@ -52,7 +65,7 @@ export default {
                 }
             })
     },
-    comments:{
+    components:{
         blogListItem
     }
 }

@@ -159,7 +159,6 @@ export default {
             .then((data)=>{
                 if(data.status === 'success'){
                     this.blog = data.data;
-                    console.log(this.blog);
                 }
             })
         }

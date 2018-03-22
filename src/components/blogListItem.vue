@@ -1,5 +1,5 @@
 <template>
-    <li class="blog-list-item" @click="$emit('click')">
+    <li class="blog-list-item" @click.stop="$emit('click')">
         <h3>
             {{ title }}
         </h3>
@@ -18,8 +18,8 @@
                 <span>{{ commentsLength }}</span>
             </div>
             <div class="edit" v-if='edit === true'>
-                <span @click="$emit('edit')">修改</span>
-                <span @click="$emit('delete')">删除</span>
+                <span @click.stop="$emit('edit')">修改</span>
+                <span @click.stop="$emit('delete')">删除</span>
             </div>
         </div>
     </li>

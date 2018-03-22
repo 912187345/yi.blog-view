@@ -14,7 +14,14 @@ export default {
     data(){
         return {
             content:'',
-            title:''
+            title:'',
+            edit:this.$route.params.edit || false
+        }
+    },
+    created(){
+        console.log(this.edit);
+        if( this.edit === true ){
+            this.getBlogById();
         }
     },
     methods:{
@@ -29,19 +36,35 @@ export default {
                     title:this.title
                 }
             }
+            if( this.edit === true ){
+                params.url = '/edit-blog';
+                params.param.blogId = this.$route.params.blogId;
+            }
+            console.log(params);
             this.$getApi.post(params)
             .then(data=>{
                 if( data.status === 'success' ){
-                    let blog = {
-                        title:this.title,
-                        content:this.content
-                    }
                     this.$router.push({name:'blogDetail',params:{blogId:data.data.blogId}});
                 }else{
                     this.$message('提交失败，请稍后重试');
                 }
             },err=>{
                 this.$message('提交失败，请稍后重试');
+            })
+        },
+        getBlogById(){
+            let params = {
+                url:'/get-blog-by-id',
+                param:{
+                    id:this.$route.params.blogId
+                }
+            }
+            this.$getApi.post(params)
+            .then((data)=>{
+                if(data.status === 'success'){
+                    this.content = data.data.content;
+                    this.title = data.data.title;
+                }
             })
         }
     },
