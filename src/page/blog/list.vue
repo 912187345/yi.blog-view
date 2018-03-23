@@ -41,10 +41,9 @@ export default {
         }
         this.$getApi.post(params)
         .then((data)=>{
-            console.log(data);
             if( data.status = 'success' ){
+                
                 this.$store.commit('setBlogList',data.data);
-
             } else {
 
                 this.$notify.error({

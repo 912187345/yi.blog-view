@@ -38,9 +38,8 @@ import {mapState} from 'vuex'
             console.log(res);
             if( res.status === 'success' ){
                 this.$store.commit('setUserHead',res.data.headImg);
-                this.$notify({
-                    title: '成功',
-                    message: '上传头像成功',
+                this.$message({
+                    message: '上传头像成功~',
                     type: 'success'
                 });
             }else{

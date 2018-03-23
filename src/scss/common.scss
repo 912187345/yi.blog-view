@@ -13,8 +13,8 @@ $centerW:1000px;
     background-position: center center;
 }
 
-@mixin blogList{
-    width: $centerW;
+@mixin blogList($w:$centerW){
+    width: $w;
     margin: 0 auto;
     background: #ffffff;
     perspective: 700px;

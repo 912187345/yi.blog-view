@@ -11,7 +11,7 @@ var axiosFn = (method, params)=>{
         let config = params.param;
         config = {
             method:method,
-            url: '/api/' + params.url
+            url: '/api' + params.url
         }
         if( method === 'GET' ){
     
@@ -33,11 +33,18 @@ var axiosFn = (method, params)=>{
                 config.data.token = token;
             }
         }
-    
+        let url = ['/api/register','/api/logon','/api/upload-head-image','/api/get-blog','/api/get-blog-by-id'] //里面的请求不需要带token
+        if( url.indexOf(config.url) === -1 ){
+            if( !config.data.token || config.data.token === 'undefined' ){
+                return alert('请先登录');
+            }
+        }
         axios(config)
         .then((data)=>{
         if( data.status === 200 ){
-
+            if( data.data.status === 'Re' ){
+                return alert('请先登录');
+            }
             res(data.data);
         }else{
 

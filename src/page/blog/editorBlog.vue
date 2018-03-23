@@ -19,7 +19,6 @@ export default {
         }
     },
     created(){
-        console.log(this.edit);
         if( this.edit === true ){
             this.getBlogById();
         }
@@ -40,7 +39,6 @@ export default {
                 params.url = '/edit-blog';
                 params.param.blogId = this.$route.params.blogId;
             }
-            console.log(params);
             this.$getApi.post(params)
             .then(data=>{
                 if( data.status === 'success' ){

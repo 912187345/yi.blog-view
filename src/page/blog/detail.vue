@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="blog-detail">
         <div>
             标题：<span>{{ blog.title }}</span>
         </div>
@@ -8,26 +8,50 @@
             发表时间：<span>{{ blog.date }}</span>
         </div>
         <div>
-            评论：
-                <ul>
-                    <li v-for="(item,j) in blog.comments" :key="item.id">
-                        作者：{{ item.commentsName }}  
-                        内容：{{ item.commentsContent }}
-                        <a href="javascript:;" @click="reply(item,'replyMsg',j)">回复</a> 
-                        <a href="javasctipt:;" 
-                            v-if="userToken === item.commentsToken" 
-                            @click="deleteComments(item)">
-                        删除</a>
-                        <ul>
-                            <li v-for="(replyItem) in item.replycomments" :key="replyItem.commentId">
-                                {{ replyItem.fromName }} 回复 {{ replyItem.toName }} : {{ replyItem.replyText }}
-                                时间: {{ replyItem.replyDate }} <a href="javascript:;" @click="reply(replyItem,'reply',j)">回复</a>
-                            </li>
-                        </ul>
+            <div class="comments-title">评论</div>
+                <ul class="comments-list">
+                    <li v-for="(item,j) in blog.comments" class="comments-item" :key="item.id">
+                        <div class="headImg">
+                            <headImg
+                                :src="item.commentsUser.headImg"
+                                :w="'35px'"
+                            ></headImg>
+                        </div>
+                        <div class="content">
+                            <div class="userName">
+                                {{ item.commentsUser.username }}
+                            </div>
+                            <div class="comments-content">
+                                {{ item.commentsContent }}
+                            </div>
+                            <div class="date">
+                                <div class="comments-date">
+                                    发布时间：{{ item.commentsDate }}
+                                </div>
+                                <span>{{ item.replycomments.length }}条评论</span>
+                                <div class="reply-icon">
+                                    <img src="/icon/reply.svg">
+                                </div>
+                            </div>
+                            <div class="btnWrap">
+                                <a href="javascript:;" @click="reply(item,'replyMsg',j)">回复</a>
+                                <a href="javasctipt:;" 
+                                    v-if="userToken === item.commentsToken" 
+                                    @click="deleteComments(item)">
+                                删除</a>
+                            </div>
+                            <ul class="reply-wrap">
+                                <li v-for="(replyItem) in item.replycomments" :key="replyItem.commentId">
+                                    {{ replyItem.fromUser.username }} 回复 {{ replyItem.toUser.username }} : {{ replyItem.replyText }}
+                                    时间: {{ replyItem.replyDate }} <a href="javascript:;" @click="reply(replyItem,'reply',j)">回复</a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
         </div>
         <messageBoard
+            v-if="false"
             placeholder="请输入评论内容"
             leftBtn="评论"
             v-model="text"
@@ -40,6 +64,7 @@
 <script>
 import messageBoard from '../messageBoard/messageBoard';
 import detailContent from './detailContent';
+import headImg from '../../components/headImg'
 import {mapState,mapActions} from 'vuex';
 export default {
     data(){
@@ -53,6 +78,9 @@ export default {
         ...mapState(['userToken','userInfo'])
     },
     created(){
+        if( !this.id ){
+            return this.$router.go(-1);
+        }
         this.getBlogById(this.id);
     },
     methods:{
@@ -157,6 +185,7 @@ export default {
             }
             this.$getApi.post(params)
             .then((data)=>{
+                console.log(data);
                 if(data.status === 'success'){
                     this.blog = data.data;
                 }
@@ -165,11 +194,63 @@ export default {
     },
     components:{
         messageBoard,
-        detailContent
+        detailContent,
+        headImg
     }
 }
 </script>
 
 <style lang='scss'>
-
+.blog-detail{
+    @include blogList(750px);
+}
+.comments-title{
+    text-align: center;
+    color: #666666;
+}
+.comments-item{
+    position: relative;
+    padding: 10px;
+    display: flex;
+    border-bottom: 1px solid #999;
+    .content{
+        margin-left: 10px;
+        font-size: 15px;
+        flex: 1;
+    }
+    .userName{
+        font-size: 17px;
+        color: #000000;
+        font-weight: bolder;
+        padding: 4px 0 6px;
+    }
+    .comments-content{
+        color: #333;
+        padding-bottom: 10px;
+    }
+    .btnWrap{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        >a{
+            color: #666666;
+        }
+    }
+    .date{
+        display: flex;
+        align-items:center;
+        flex-direction: row-reverse;
+        .reply-icon{
+            width: 18px;
+            height: 18px;
+            margin-right: 4px;
+        }
+        .comments-date{
+            margin-left: 26px;
+        }
+    }
+    .reply-wrap{
+        border: 1px solid #333;
+    }
+}
 </style>

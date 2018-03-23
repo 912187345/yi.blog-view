@@ -26,8 +26,12 @@
 </template>
 
 <script>
+import headImg from './headImg'
 export default {
-    props:['title','user','date','commentsLength','edit']
+    props:['title','user','date','commentsLength','edit'],
+    components:{
+        headImg
+    }
 }
 </script>
 
@@ -74,8 +78,8 @@ export default {
         }
         .headImg{
             @include headCR;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
         }
     }
     .edit{

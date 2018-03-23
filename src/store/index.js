@@ -30,6 +30,7 @@ export default new Vuex.Store({
         },
         setUserHead(state, data){
             state.userInfo.headImg = data;
+            localStorage.setItem('userInfo',JSON.stringify(state.userInfo));
         }
     },
     actions:{

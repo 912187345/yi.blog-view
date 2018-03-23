@@ -29,16 +29,28 @@ export default {
             this.$router.push({name:'editorBlog',params:{blogId:item.blogId,edit:true}})
         },
         deleteBlog(item){
-            alert('delete');
-            let params = {
-                url:'/delete-blog',
-                param:{
-                    blogId:item.blogId
+            this.$confirm('确定要删除此博客？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(()=>{
+                let params = {
+                    url:'/delete-blog',
+                    param:{
+                        blogId:item.blogId
+                    }
                 }
-            }
-            this.$getApi.post(params)
-            .then((rst)=>{
-                console.log(rst);
+                this.$getApi.post(params)
+                .then((rst)=>{
+                    if( rst.status === 'success' ){
+                        for( let i = 0, len = this.myBlogList; i < len; i++ ){
+                            if( item.blogId === this.myBlogList[i].blogId ){
+                                this.myBlogList.splice(i,1);
+                                break;
+                            }
+                        }
+                    }
+                })
             })
         },
         goDetail(item){

@@ -19,7 +19,7 @@ Vue.use(Router)
 const route =  new Router({
   mode:'hash',
   routes: [
-    { path: '/', redirect: '/logon' },
+    { path: '/', redirect: '/blogList' },
     {
       path: '/logon',
       name: 'logon',

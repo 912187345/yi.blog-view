@@ -1,16 +1,30 @@
 <template>
     <div id="top" class="top">
-        <div>
-            退出
-        </div>
-        <div @click="goSetting">
-            设置
-        </div>
-        <div @click="goMyBlog">
-            我的博客
-        </div>
-        <div class="header" :style="{backgroundImage:`url(${userInfo.headImg})`}">
-        </div>
+        <template v-if="userToken !== 'undefined' && userToken">
+            <div @click="logout">
+                退出
+            </div>
+            <div @click="goSetting">
+                设置
+            </div>
+            <div @click="goMyBlog">
+                我的博客
+            </div>
+            <el-tooltip class="item" effect="dark" content="可以自定义头像哦~" placement="bottom">
+                <div class="header" 
+                    :style="{backgroundImage:`url(${userInfo.headImg})`}"
+                     @click="goSetting"
+                ></div>
+            </el-tooltip>
+        </template>
+        <template v-else>
+            <div class="register" @click="goRegister"> 
+                注册
+            </div>
+            <div class="logon" @click="logon">
+                登录
+            </div>
+        </template>
         <div class="writeBtn">
             <router-link to="/editorBlog">
                 写博客
@@ -24,18 +38,34 @@ import { mapState } from 'vuex'
 export default {
     computed:{
         ...mapState({
-            userInfo:'userInfo'
+            userInfo:'userInfo',
+            userToken:'userToken'
         })
     },
     methods:{
         logout(){
-            alert('退出成功');
+            this.$confirm('是否退出登录？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userInfo');
+                this.$store.commit('setUserInfo',{});
+                this.$router.push({name:'blogList'});
+            })
         },
         goSetting(){
             this.$router.push({name:'setting'})
         },
         goMyBlog(){
             this.$router.push({name:'myBlog'})
+        },
+        goRegister(){
+            this.$router.push({name:'register'})
+        },
+        logon(){
+            this.$router.push({name:'logon'})
         }
     }
 }
@@ -63,8 +93,8 @@ export default {
     }
 }
 .header{
-    width: 50px;
-    height: 50px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
     background-size: cover;
     background-position: center center;
