@@ -37,6 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 .blog-list-item{
+    background: #ffffff;
     perspective:100px;
     position: relative;
     cursor: pointer;
@@ -80,6 +81,7 @@ export default {
             @include headCR;
             width: 40px;
             height: 40px;
+            margin-right: 14px;
         }
     }
     .edit{

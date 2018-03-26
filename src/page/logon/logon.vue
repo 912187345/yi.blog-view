@@ -7,7 +7,7 @@
       <div class="userName">
         <el-input v-model="userName" placeholder="请输入用户名"></el-input>
       </div>
-      <el-input v-model="pwd" placeholder="请输入密码" :disabled='userName?false:true'></el-input>
+      <el-input v-model="pwd" type="password" placeholder="请输入密码" :disabled='userName?false:true'></el-input>
       <div class="btnWrap">
         <el-button type="primary" @click='logon()' plain>登录</el-button>
         <router-link to="/register">

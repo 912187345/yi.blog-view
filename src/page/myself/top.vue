@@ -1,34 +1,36 @@
 <template>
-    <div id="top" class="top">
-        <template v-if="userToken !== 'undefined' && userToken">
-            <div @click="logout">
-                退出
+    <div id="top">
+        <div class="top">
+            <template v-if="userToken !== 'undefined' && userToken">
+                <div @click="logout">
+                    退出
+                </div>
+                <div @click="goSetting">
+                    设置
+                </div>
+                <div @click="goMyBlog">
+                    我的博客
+                </div>
+                <el-tooltip class="item" effect="dark" content="可以自定义头像哦~" placement="bottom">
+                    <div class="header" 
+                        :style="{backgroundImage:`url(${userInfo.headImg})`}"
+                        @click="goSetting"
+                    ></div>
+                </el-tooltip>
+            </template>
+            <template v-else>
+                <div class="register" @click="goRegister"> 
+                    注册
+                </div>
+                <div class="logon" @click="logon">
+                    登录
+                </div>
+            </template>
+            <div class="writeBtn">
+                <router-link to="/editorBlog">
+                    写博客
+                </router-link>
             </div>
-            <div @click="goSetting">
-                设置
-            </div>
-            <div @click="goMyBlog">
-                我的博客
-            </div>
-            <el-tooltip class="item" effect="dark" content="可以自定义头像哦~" placement="bottom">
-                <div class="header" 
-                    :style="{backgroundImage:`url(${userInfo.headImg})`}"
-                     @click="goSetting"
-                ></div>
-            </el-tooltip>
-        </template>
-        <template v-else>
-            <div class="register" @click="goRegister"> 
-                注册
-            </div>
-            <div class="logon" @click="logon">
-                登录
-            </div>
-        </template>
-        <div class="writeBtn">
-            <router-link to="/editorBlog">
-                写博客
-            </router-link>
         </div>
     </div>
 </template>
@@ -73,15 +75,17 @@ export default {
 
 <style lang='scss' scoped>
 #top{
+ background: #ffffff;
+ margin-bottom: 20px;
+}   
+.top{
     display: flex;
     flex-direction: row-reverse;
     padding: 10px 30px;
     width: $centerW;
     margin: 0 auto;
     align-items:center;
-}
-.top{
-    >div{
+    &>div{
         margin-right: 10px;
         cursor: pointer;
     }

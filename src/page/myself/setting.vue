@@ -1,19 +1,32 @@
 <template>
     <div class="settingWrap">
-        <el-upload
-            class="upload-demo"
-            drag
-            action="/api/upload-head-image"
-            :file-list="fileList"
-            :data="uploadParams"
-            :on-success="uploadSuccess"
-            :on-error="uploadError"
-            :limit="1"
-            multiple>
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>
+        <div class="line">
+            <div class="title">头像：</div>
+                <el-upload
+                class="upload-demo"
+                drag
+                action="/api/upload-head-image"
+                :file-list="fileList"
+                :data="uploadParams"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
+                :limit="1"
+                multiple>
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
+                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+        </div>
+        <div class="line" @click="edit('username')">
+            <div class="title">用户名：</div>
+            <div>{{ userInfo.username }}</div>
+            <div class="btn">修改</div>
+        </div>
+        <div class="line" @click="edit('email')">
+            <div class="title">邮箱地址：</div>
+            <div>{{  userInfo.email }}</div>
+            <div class="btn">修改</div>
+        </div>
     </div>
 </template>
 
@@ -26,7 +39,7 @@ import {mapState} from 'vuex'
       };
     },
     computed:{
-        ...mapState(['userToken']),
+        ...mapState(['userToken','userInfo']),
         uploadParams(){
             return {
                 token:this.userToken
@@ -38,8 +51,9 @@ import {mapState} from 'vuex'
             console.log(res);
             if( res.status === 'success' ){
                 this.$store.commit('setUserHead',res.data.headImg);
-                this.$message({
-                    message: '上传头像成功~',
+                this.$notify({
+                    title: '成功',
+                    message: '上传头像成功',
                     type: 'success'
                 });
             }else{
@@ -48,6 +62,65 @@ import {mapState} from 'vuex'
         },
         uploadError(){
             this.$message('上传失败，请稍后重试');
+        },
+        edit(type){
+            let tips,errMes,rex;
+            switch(type){
+                case 'username':
+                    tips = '请输入新的用户名';
+                    errMes = '请输入内容';
+                    rex = /\S/;
+                    break;
+                case 'email':
+                    tips = '请输入新的邮箱地址';
+                    errMes = '请输入内容';
+                    rex = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/;
+                    break;
+            }
+            this.$prompt(tips, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    inputPattern: rex,
+                    inputErrorMessage: errMes
+                }).then(({ value }) => {
+                    let params = {
+                        url:'/edit-user',
+                        param:{
+                            type:type,
+                            value:value
+                        }
+                    }
+                    this.$getApi.post(params)
+                    .then((rst)=>{
+                        if( rst.status == 'success' ){
+                            let userInfo = this.userInfo;
+                            switch(type){
+                                case 'username':
+                                    userInfo.username = value;
+                                    break;
+                                case 'email':
+                                    userInfo.email = value;
+                                    break;
+                            }
+                            this.$store.commit('setUserInfo',userInfo);
+                            this.$message({
+                                type: 'success',
+                                message: '修改成功'
+                            });  
+                        }
+                    })
+                },err=>{
+                    this.$message({
+                        type: 'warning',
+                        message: '修改失败，请稍后重试'
+                    });       
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消修改'
+                    });       
+            });
         }
     }
   }
@@ -80,5 +153,19 @@ import {mapState} from 'vuex'
 .settingWrap{
     width: $centerW;
     margin: 0 auto;
+    .line{
+        display: flex;
+        margin: 20px 0;
+    }
+    .title{
+        width: 90px;
+    }
+    .btn{
+        margin-left: 20px;
+        cursor: pointer;
+        &:hover{
+            color: skyblue;
+        }
+    }
 }
 </style>

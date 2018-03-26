@@ -39,8 +39,9 @@
 #bg{
   position: fixed;
   z-index: -1;
-  // background:url('/icon/joker.jpg');
-  background-size: 100% 100%;
+  background:url('/bg/joker.jpg');
+  background-size: cover;
+  background-position: center center;
   width: 100%;
   height: 100%;
 }

@@ -1,6 +1,6 @@
 <template>
-  <div class="blog-list">
-    <ul>
+  <div >
+    <ul class="blog-list">
         <template v-for='item in mesList'>
             <blogListItem
                 :key="item.blogId"
@@ -60,8 +60,11 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang='scss'>
 .blog-list{
     @include blogList;
+}
+.blog-list{
+    background: none;
 }
 </style>
