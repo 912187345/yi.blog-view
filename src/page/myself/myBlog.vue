@@ -86,5 +86,6 @@ export default {
 <style lang="scss" scoped>
 .myBlog-list{
     @include blogList;
+    background: none;
 }
 </style>

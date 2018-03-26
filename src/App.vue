@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <div id="bg"></div>
+    <div id="bg" :style="{ backgroundImage:`url(${userInfo.background})` }"></div>
     <top v-if='showbol'></top>
     <router-view/>
   </div>
 </template>
 <script>
   import top from './page/myself/top'
+  import {mapState} from 'vuex'
   export default {
+    computed:{
+      ...mapState({
+            userInfo:'userInfo'
+        })
+    },
     data(){
       return {
         showbol:false,
@@ -39,7 +45,6 @@
 #bg{
   position: fixed;
   z-index: -1;
-  background:url('/bg/joker.jpg');
   background-size: cover;
   background-position: center center;
   width: 100%;

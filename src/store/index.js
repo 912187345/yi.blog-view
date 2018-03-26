@@ -9,6 +9,7 @@ import commom from '../common';
 let getApi = commom.getApi;
 const token = localStorage.getItem('token');
 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+let default_bg = '/bg/DEFAULT_BG.jpg';
 export default new Vuex.Store({
     state:{
         userInfo:userInfo,
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     },
     mutations:{
         setUserInfo(state, data){
+            if( !data.background ){
+                data.background = default_bg;
+            }
             state.userInfo = data;
             state.userToken = data.token;
             localStorage.setItem('token',state.userToken);
@@ -30,6 +34,10 @@ export default new Vuex.Store({
         },
         setUserHead(state, data){
             state.userInfo.headImg = data;
+            localStorage.setItem('userInfo',JSON.stringify(state.userInfo));
+        },
+        setBackground(state, data){
+            state.userInfo.background = data;
             localStorage.setItem('userInfo',JSON.stringify(state.userInfo));
         }
     },

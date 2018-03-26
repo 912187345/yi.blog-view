@@ -63,8 +63,6 @@ export default {
 <style lang='scss'>
 .blog-list{
     @include blogList;
-}
-.blog-list{
     background: none;
 }
 </style>

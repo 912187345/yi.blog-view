@@ -1,6 +1,11 @@
 <template>
     <div id="top">
         <div class="top">
+            <div class="githubIcon">
+                <a href="https://github.com/912187345/yi.blog-view">
+                    <img src="/icon/GitHub.svg" alt="github">
+                </a>
+            </div>
             <template v-if="userToken !== 'undefined' && userToken">
                 <div @click="logout">
                     退出

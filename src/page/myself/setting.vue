@@ -1,20 +1,35 @@
 <template>
-    <div class="settingWrap">
+    <el-card class="box-card settingWrap">
         <div class="line">
             <div class="title">头像：</div>
-                <el-upload
+            <el-upload
                 class="upload-demo"
                 drag
                 action="/api/upload-head-image"
                 :file-list="fileList"
                 :data="uploadParams"
-                :on-success="uploadSuccess"
+                :on-success="uploadHeadSuccess"
                 :on-error="uploadError"
-                :limit="1"
-                multiple>
+                :limit="1">
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
                 <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+        </div>
+        <div class="line">
+            <div class="title">背景：</div>
+            <el-upload
+                class="upload-demo"
+                drag
+                action="/api/set-background"
+                :file-list="fileListGB"
+                :data="uploadParams"
+                :on-success="uploadBGSuccess"
+                :on-error="uploadBGError"
+                :limit="1">
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
+                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件</div>
             </el-upload>
         </div>
         <div class="line" @click="edit('username')">
@@ -27,7 +42,7 @@
             <div>{{  userInfo.email }}</div>
             <div class="btn">修改</div>
         </div>
-    </div>
+    </el-card>
 </template>
 
 <script>
@@ -36,6 +51,7 @@ import {mapState} from 'vuex'
     data() {
       return {
         fileList: [],
+        fileListGB: []
       };
     },
     computed:{
@@ -47,8 +63,7 @@ import {mapState} from 'vuex'
         }
     },
     methods: {
-        uploadSuccess(res,file){
-            console.log(res);
+        uploadHeadSuccess(res,file){
             if( res.status === 'success' ){
                 this.$store.commit('setUserHead',res.data.headImg);
                 this.$notify({
@@ -60,7 +75,23 @@ import {mapState} from 'vuex'
                 this.$message('上传失败，请稍后重试');
             }
         },
-        uploadError(){
+        uploadBGSuccess(res,file){
+            if( res.status === 'success' ){
+                this.$store.commit('setBackground',res.data.background);
+                this.$notify({
+                    title: '成功',
+                    message: '上传背景成功',
+                    type: 'success'
+                });
+            }else{
+                this.$message('上传失败，请稍后重试');
+            }
+        },
+        uploadError(err){
+            this.$message('上传失败，请稍后重试');
+        },
+        uploadBGError(err){
+            console.log('err',err)
             this.$message('上传失败，请稍后重试');
         },
         edit(type){
@@ -151,8 +182,7 @@ import {mapState} from 'vuex'
     display: block;
 }
 .settingWrap{
-    width: $centerW;
-    margin: 0 auto;
+    @include blogList;
     .line{
         display: flex;
         margin: 20px 0;
