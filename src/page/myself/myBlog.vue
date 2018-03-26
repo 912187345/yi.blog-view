@@ -1,6 +1,6 @@
 <template>
-  <ul class="myBlog-list">
-      <template v-for="item in myBlogList" v-if='myBlogList.length'>
+  <div class="myBlog-list">
+      <template v-for="item in myBlogList" v-if='myBlogList.length !== 0'>
           <blogListItem
                 :key="item.blogId"
                 :title="item.title"
@@ -13,12 +13,13 @@
                 @click='goDetail(item)'>
             </blogListItem>
       </template>
-      <template v-else>
-          <div>
-              你还没有写过东西~，快去写一个吧
+      <template v-if='myBlogList.length === 0'>
+          <div class="tips">
+              <img src="/icon/notFind.svg" alt="">
+              空空如也什么也木有~，快去写一个吧！
           </div>
       </template>
-  </ul>
+  </div>
 </template>
 
 <script>
@@ -71,6 +72,7 @@ export default {
             }
             this.$getApi.post(params)
             .then(data=>{
+                console.log(data.data);
                 if( data.status === 'success' ){
 
                     this.myBlogList = data.data;
@@ -87,5 +89,10 @@ export default {
 .myBlog-list{
     @include blogList;
     background: none;
+    .tips{
+        background: #ffffff;
+        text-align: center;
+        font-size: 18px;
+    }
 }
 </style>

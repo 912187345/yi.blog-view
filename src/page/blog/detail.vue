@@ -1,8 +1,8 @@
 <template>
     <div class="blog-detail">
-        <div>
-            标题：<span>{{ blog.title }}</span>
-        </div>
+        <h1 class="title">
+            {{ blog.title }}
+        </h1>
         <detail-content :content="blog.content"></detail-content>
         <div>
             发表时间：<span>{{ blog.date }}</span>
@@ -202,7 +202,17 @@ export default {
 
 <style lang='scss'>
 .blog-detail{
+    h1.title{
+        margin-bottom: 30px;
+    }
     @include blogList(750px);
+    padding: 20px;
+    .ql-container.ql-snow{
+        border: none;
+        .ql-editor{
+            padding: 0;
+        }
+    }
 }
 .comments-title{
     text-align: center;
@@ -251,6 +261,12 @@ export default {
     }
     .reply-wrap{
         border: 1px solid #333;
+    }
+}
+.ql-editor{
+    img{
+        width: 96%;
+        margin: 0 auto;
     }
 }
 </style>

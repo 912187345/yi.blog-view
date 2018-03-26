@@ -86,13 +86,17 @@ export default {
 .top{
     display: flex;
     flex-direction: row-reverse;
-    padding: 10px 30px;
+    padding: 4px 30px;
     width: $centerW;
     margin: 0 auto;
     align-items:center;
+    min-height: 60px;
     &>div{
         margin-right: 10px;
         cursor: pointer;
+    }
+    .githubIcon{
+        width: 24px;
     }
 }
 .writeBtn{
@@ -102,8 +106,8 @@ export default {
     }
 }
 .header{
-    width: 65px;
-    height: 65px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background-size: cover;
     background-position: center center;

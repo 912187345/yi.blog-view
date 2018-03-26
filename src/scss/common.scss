@@ -15,6 +15,7 @@ $centerW:1000px;
 
 @mixin blogList($w:$centerW){
     width: $w;
+    box-sizing: border-box;
     margin: 0 auto;
     background: #ffffff;
     perspective: 700px;
