@@ -5,9 +5,9 @@
         </h3>
         <div class="content clearfix">
             <div class="user">
-                <span class="headImg" :style="{backgroundImage:`url(${user.headImg})`}">
+                <span class="headImg" :style="{backgroundImage:`url(${userHeadImg})`}">
                 </span>
-                <span>{{ user.username }}</span>
+                <span>{{ username }}</span>
             </div>
             <div class="date">
                 <span>发布时间:</span>
@@ -28,7 +28,7 @@
 <script>
 import headImg from './headImg'
 export default {
-    props:['title','user','date','commentsLength','edit'],
+    props:['title','username','userHeadImg','date','commentsLength','edit'],
     components:{
         headImg
     }
@@ -38,7 +38,7 @@ export default {
 <style lang="scss" scoped>
 .blog-list-item{
     background: #ffffff;
-    perspective:100px;
+    perspective:1000;
     position: relative;
     cursor: pointer;
     padding: 16px;
@@ -51,7 +51,7 @@ export default {
         color: #ffffff;
         background: skyblue;   
         border-color: skyblue;
-        transform: translate3d(-6px,-6px,10px);
+        transform: translate3d(-2px,-2px,5px);
     }
     >h3{
         font-size: 20px;

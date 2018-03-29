@@ -1,29 +1,33 @@
 <template>
-  <div class="myBlog-list">
-      <template v-for="item in myBlogList" v-if='myBlogList.length !== 0'>
-          <blogListItem
-                :key="item.blogId"
-                :title="item.title"
-                :user="item.user"
-                :date="item.date"
-                :commentsLength="item.commentsLength"
-                :edit=true
-                @edit="editBlog(item)"
-                @delete="deleteBlog(item)"
-                @click='goDetail(item)'>
-            </blogListItem>
-      </template>
-      <template v-if='myBlogList.length === 0'>
-          <div class="tips">
-              <img src="/icon/notFind.svg" alt="">
-              空空如也什么也木有~，快去写一个吧！
-          </div>
-      </template>
-  </div>
+    <div class="myBlog-list">
+        <template v-for="item in myBlogList" v-if='myBlogList.length !== 0'>
+            <blogListItem
+                    :key="item.blogId"
+                    :title="item.title"
+                    :user="item.user"
+                    :date="item.date"
+                    :commentsLength="item.commentsLength"
+                    :edit=true
+                    @edit="editBlog(item)"
+                    @delete="deleteBlog(item)"
+                    @click='goDetail(item)'>
+                </blogListItem>
+        </template>
+        <template v-if='showNone'>
+            <div class="tips">
+                <img src="/icon/notFind.svg" alt="">
+                空空如也什么也木有~，快去写一个吧！
+            </div>
+        </template>
+        <div>
+            <get-more-btn v-if="myBlogList.length >= 10"></get-more-btn>
+        </div>
+    </div>
 </template>
 
 <script>
 import blogListItem from '../../components/blogListItem'
+import getMoreBtn from '../../components/getMoreBtn';
 export default {
     methods:{
         editBlog(item){
@@ -60,7 +64,8 @@ export default {
     },
     data(){
         return{
-            myBlogList:[]
+            myBlogList:[],
+            showNone:false
         }
     },
     created(){
@@ -72,15 +77,18 @@ export default {
             }
             this.$getApi.post(params)
             .then(data=>{
-                console.log(data.data);
                 if( data.status === 'success' ){
 
                     this.myBlogList = data.data;
+                    if( data.data && data.data.length === 0 ){
+                        this.showNone = true;
+                    }
                 }
             })
     },
     components:{
-        blogListItem
+        blogListItem,
+        getMoreBtn
     }
 }
 </script>
