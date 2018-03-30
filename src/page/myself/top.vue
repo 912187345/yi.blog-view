@@ -36,6 +36,11 @@
                     写博客
                 </router-link>
             </div>
+            <div>
+                <router-link to="/blogList">
+                    首页
+                </router-link>
+            </div>
         </div>
     </div>
 </template>

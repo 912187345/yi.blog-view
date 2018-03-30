@@ -1,14 +1,16 @@
 <template>
-    <div>
+    <div @click="clickBoard($event)" class="mes-board clearfix">
         <el-input
             type="textarea"
             :rows="3"
             :placeholder="placeholder"
             v-model="text"
             :value="value"
+            resize='none'
+            @focus='focus'
             clearable>
         </el-input>
-        <el-button type="primary" round @click="$emit('configBtn')">{{leftBtn}}</el-button>
+        <el-button type="primary" v-if="showBtn" @click="$emit('configBtn')">{{leftBtn}}</el-button>
     </div>
 </template>
 
@@ -21,13 +23,25 @@ export default {
        leftBtn:{ type:[String], default:'发送内容'},
        value:{type:[String,Number], default:''}
     },
+    mounted(){
+        window.addEventListener('click',this.closeBtn)
+    },
     data(){
       return {
-        text:''
+        text:'',
+        showBtn:false
       }
     },
     methods:{
-        
+        focus(){
+            this.showBtn = true;
+        },
+        closeBtn(){
+            this.showBtn = false;
+        },
+        clickBoard(e){
+            e.stopPropagation();
+        }   
     },
     watch:{
         'text':{
@@ -42,18 +56,25 @@ export default {
             },
             deep:true
         }
+    },
+    destroyed(){
+        window.removeEventListener('click',this.closeBtn);
     }
 }
 </script>
 
-<style>
-.blog-list{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-}
-.blog-list > li:hover{
-    color: blue;
+<style lang='scss' scoped>
+.mes-board{
+    background: #f8f9fa;
+    border: 1px solid #f1f1f1;
+    padding: 14px;
+    border-radius: 6px;
+    >button{
+        float: right;
+        margin-top: 10px;
+    }
+    textarea{
+        resize: none;
+    }
 }
 </style>

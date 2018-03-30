@@ -3,12 +3,23 @@
         <h1 class="title">
             {{ blog.title }}
         </h1>
+        <div class="userInfo">
+            <div class="userHead" :style="{backgroundImage:`url(${blog.user.headImg})`}">
+            </div>
+            <div>
+                <div>{{blog.user.username}}</div>
+                <div class="date">{{ blog.date }}</div>
+            </div>
+        </div>
         <detail-content :content="blog.content"></detail-content>
         <div>
-            发表时间：<span>{{ blog.date }}</span>
-        </div>
-        <div>
             <div class="comments-title">评论</div>
+                <messageBoard
+                    placeholder="请输入评论内容"
+                    leftBtn="评论"
+                    v-model="text"
+                    @configBtn="sendComments()">
+                </messageBoard>
                 <ul class="comments-list">
                     <li v-for="(item,j) in blog.comments" class="comments-item" :key="item.id">
                         <div class="headImg">
@@ -34,31 +45,41 @@
                                 </div>
                             </div>
                             <div class="btnWrap">
-                                <a href="javascript:;" @click="reply(item,'replyMsg',j)">回复</a>
+                                <a href="javascript:;" @click="reply(item,'replyMsg',j)">评论</a>
                                 <a href="javasctipt:;" 
                                     v-if="userToken === item.commentsToken" 
                                     @click="deleteComments(item)">
                                 删除</a>
                             </div>
-                            <ul class="reply-wrap">
-                                <li v-for="(replyItem) in item.replycomments" :key="replyItem.commentId">
-                                    {{ replyItem.fromUser.username }} 回复 {{ replyItem.toUser.username }} : {{ replyItem.replyText }}
-                                    时间: {{ replyItem.replyDate }} <a href="javascript:;" @click="reply(replyItem,'reply',j)">回复</a>
+                            <ul class="reply-wrap" v-show="item.replycomments.length !== 0">
+                                <li v-for="replyItem in item.replycomments" :key="replyItem.commentId">
+                                    <div class="headImg left" :style="{backgroundImage:`url(${replyItem.fromUser.headImg})`}">
+                                    </div>
+                                    <div class="right">
+                                        <div class="reply-user">
+                                            {{ replyItem.fromUser.username }}
+                                            <template v-if="replyItem.toUser">&nbsp;回复&nbsp;&nbsp;
+                                                <div class="headImg" :style="{backgroundImage:`url(${replyItem.toUser.headImg})`}">
+                                                </div>
+                                                {{ replyItem.toUser.username }}
+                                            </template>
+                                        </div>
+                                        <div>
+                                            <p class="reply-content"> {{ replyItem.replyText }} </p>
+                                            <div class="reply-date">
+                                            {{ replyItem.replyDate }} 
+                                            </div>
+                                        </div>
+                                        <a href="javascript:;" class="replyBtn" @click="reply(replyItem,'reply',j)">回复</a>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
                     </li>
                 </ul>
         </div>
-        <messageBoard
-            v-if="false"
-            placeholder="请输入评论内容"
-            leftBtn="评论"
-            v-model="text"
-            @configBtn="sendComments()">
-        </messageBoard>
+        
     </div>
-
 </template>
 
 <script>
@@ -71,7 +92,9 @@ export default {
         return {
             id:this.$route.params.blogId,
             text:'',
-            blog:{}
+            blog:{
+                user:{}
+            }
         }
     },
     computed:{
@@ -99,7 +122,15 @@ export default {
             this.$getApi.post(params)
             .then((data)=>{
                 if(data.status === 'success'){
-                    this.blog.comments.push(data.data);
+                    this.text = '';
+                    let comments = data.data;
+                    comments.commentsUser = {
+                        headImg:this.$store.state.userInfo.headImg,
+                        username:this.$store.state.userInfo.username
+                    }
+                    comments.commentsDate = data.data.date;
+                    comments.replycomments=[]
+                    this.blog.comments.push(comments);
                 }
             })
         },
@@ -110,12 +141,12 @@ export default {
                 inputPattern: /\S/,
                 inputErrorMessage: '请输入内容'
             }).then(({value})=>{
-                let toName = item.commentsName ? item.commentsName:item.toName;
-                let toToken = item.commentsToken ? item.commentsToken:item.toToken;
-                let fromName = this.userInfo.username;
+                let toToken = item.commentsToken ? item.commentsToken:item.fromToken;
                 let fromToken = this.userToken;
                 let commentsId = item.id?item.id:item.commentsId;
-
+                if(type === 'replyMsg'){
+                    toToken = '';
+                }
                 let params = {
                     url:'/reply-comments',
                     param:{
@@ -123,8 +154,6 @@ export default {
                         fromToken:fromToken,
                         text:value,
                         commentsId:commentsId,
-                        toName:toName,
-                        fromName:fromName,
                         blogId:this.blog.blogId
                     }
                 }
@@ -134,10 +163,18 @@ export default {
                         if(!this.blog.comments[index].replycomments){
                             this.blog.comments[index].replycomments = [];
                         }
-                        if( type === 'reply' ){
-                            // let
+                        let reply = rst.data;
+                        reply.fromUser = {
+                            headImg:this.$store.state.userInfo.headImg,
+                            username:this.$store.state.userInfo.username,
+                        };
+                        if(type !== 'replyMsg'){
+                            reply.toUser = {
+                                headImg:item.fromUser.headImg,
+                                username:item.fromUser.username,
+                            };
                         }
-                        this.blog.comments[index].replycomments.push(params.param);
+                        this.blog.comments[index].replycomments.push(reply);
                     }
                 })
             }).catch((err) => {
@@ -150,7 +187,6 @@ export default {
             
         },
         deleteComments(item){
-            console.log(item);
             let params = {
                 url:'/delete-comments',
                 param:{
@@ -159,7 +195,6 @@ export default {
             }
             this.$getApi.post(params)
             .then(data=>{
-                console.log(data);
                 if( data.status === 'success' ){
                     this.blog.comments.forEach((ele, index) => {
                         if( ele.id === item.id ){
@@ -167,9 +202,9 @@ export default {
                         }
                     });
                 }else{
-                    this.$notify.error({
-                        title: '错误',
-                        message: '删除失败，请稍后重试'
+                    this.$message({
+                        message: '删除失败，请稍后重试',
+                        type: 'warning'
                     });
                 }
             },err=>{
@@ -202,27 +237,108 @@ export default {
 
 <style lang='scss'>
 .blog-detail{
+    border-radius: 6px;
+    border:1px solid #ebeef5;
+    box-shadow:0 2px 12px 0 rgba(0,0,0,.1);
     h1.title{
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
     @include blogList(750px);
     padding: 20px;
     .ql-container.ql-snow{
         border: none;
+        font-size: 15px;
         .ql-editor{
             padding: 0;
         }
+    }
+    .userInfo{
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        margin-bottom: 20px;
+        .userHead{
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            @include headCR;
+        }
+        .date{
+            font-size: 12px;
+            color: #999;
+        }
+    }
+    .reply-wrap{
+        padding: 15px;
+        border: 1px solid $gray;
+        margin-top: 6px;
+        >li{
+            display: flex;
+            position: relative;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom:1px solid $gray;
+            &:last-child{
+                border-bottom: none;
+            }
+            &:hover .replyBtn{
+                display: block;
+            }
+            >div{
+                width: 100%;
+            }
+        }
+        .left.headImg{
+            margin-right: 10px;
+        }
+        .headImg{
+            @include headCR;
+            width: 27px;
+            height: 27px;
+            margin-right: 4px;
+        }
+        .reply-user{
+            display: flex;
+            align-items: center;
+        }
+        .reply-date{
+            font-size: 13px;
+            color: #999;
+            text-align: right;
+        }
+        .reply-content{
+            padding: 4px 0;
+        }
+        .replyBtn{
+            color: #999;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            display: none;
+            &:hover{
+                color: skyblue;
+                text-decoration: underline;
+            }
+        }
+    }
+    .comments-list{
+        margin-top: 36px;
     }
 }
 .comments-title{
     text-align: center;
     color: #666666;
+    margin-bottom: 16px;
+    margin-top: 20px;
 }
 .comments-item{
     position: relative;
     padding: 10px;
     display: flex;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid $gray;
+    &:last-child{
+        border-bottom: none;
+    }
     .content{
         margin-left: 10px;
         font-size: 15px;
@@ -258,9 +374,6 @@ export default {
         .comments-date{
             margin-left: 26px;
         }
-    }
-    .reply-wrap{
-        border: 1px solid #333;
     }
 }
 .ql-editor{

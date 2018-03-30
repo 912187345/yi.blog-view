@@ -52,9 +52,9 @@ export default {
                     this.blogList = this.blogList.concat(data.data)
                 } else {
 
-                    this.$notify.error({
-                        title: '错误',
-                        message: data.data
+                    this.$message({
+                        message: '获取列表失败，请稍后重试',
+                        type: 'warning'
                     });
                 }
             })

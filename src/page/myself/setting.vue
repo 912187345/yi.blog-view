@@ -66,8 +66,7 @@ import {mapState} from 'vuex'
         uploadHeadSuccess(res,file){
             if( res.status === 'success' ){
                 this.$store.commit('setUserHead',res.data.headImg);
-                this.$notify({
-                    title: '成功',
+                this.$message({
                     message: '上传头像成功',
                     type: 'success'
                 });
@@ -78,8 +77,7 @@ import {mapState} from 'vuex'
         uploadBGSuccess(res,file){
             if( res.status === 'success' ){
                 this.$store.commit('setBackground',res.data.background);
-                this.$notify({
-                    title: '成功',
+                this.$message({
                     message: '上传背景成功',
                     type: 'success'
                 });
@@ -91,7 +89,6 @@ import {mapState} from 'vuex'
             this.$message('上传失败，请稍后重试');
         },
         uploadBGError(err){
-            console.log('err',err)
             this.$message('上传失败，请稍后重试');
         },
         edit(type){

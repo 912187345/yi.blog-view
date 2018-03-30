@@ -52,7 +52,7 @@
               this.$store.commit('setUserInfo',data.data);
               this.$router.push({name:'blogList'});
             }else{
-
+              
               this.$notify.error({
                 title: '错误',
                 message: data.errMsg

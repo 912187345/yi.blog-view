@@ -20,7 +20,7 @@
             </div>
         </template>
         <div>
-            <get-more-btn v-if="myBlogList.length >= 10"></get-more-btn>
+            <get-more-btn @getMore="getList" v-if="myBlogList.length >= 10"></get-more-btn>
         </div>
     </div>
 </template>
@@ -48,7 +48,7 @@ export default {
                 this.$getApi.post(params)
                 .then((rst)=>{
                     if( rst.status === 'success' ){
-                        for( let i = 0, len = this.myBlogList; i < len; i++ ){
+                        for( let i = 0, len = this.myBlogList.length; i < len; i++ ){
                             if( item.blogId === this.myBlogList[i].blogId ){
                                 this.myBlogList.splice(i,1);
                                 break;
@@ -60,6 +60,31 @@ export default {
         },
         goDetail(item){
             this.$router.push({name:'blogDetail',params:{blogId:item.blogId}})
+        },
+        getList(){
+            let params = {
+                url:'/get-blog',
+                param:{
+                    myBlog:true,
+                    offset:this.myBlogList.length,
+                    limit:this.myBlogList.length+10
+                }
+            }
+            this.$getApi.post(params)
+            .then(data=>{
+                if( data.status === 'success' ){
+
+                    this.myBlogList = this.myBlogList.concat(data.data);
+                    if( data.data && data.data.length === 0 ){
+                        this.showNone = true;
+                    }
+                }else{
+                    this.$message({
+                        message: '获取列表失败，请稍后重试',
+                        type: 'warning'
+                    });
+                }
+            })
         }
     },
     data(){
@@ -69,22 +94,7 @@ export default {
         }
     },
     created(){
-        let params = {
-                url:'/get-blog',
-                param:{
-                    myBlog:true
-                }
-            }
-            this.$getApi.post(params)
-            .then(data=>{
-                if( data.status === 'success' ){
-
-                    this.myBlogList = data.data;
-                    if( data.data && data.data.length === 0 ){
-                        this.showNone = true;
-                    }
-                }
-            })
+        this.getList();
     },
     components:{
         blogListItem,
@@ -100,7 +110,16 @@ export default {
     .tips{
         background: #ffffff;
         text-align: center;
-        font-size: 18px;
+        font-size: 20px;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        height: 400px;
+        >img{
+            width: 60px;
+            height: 60px;
+            margin-right: 16px;
+        }
     }
 }
 </style>
