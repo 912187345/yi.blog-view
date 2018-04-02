@@ -32,6 +32,9 @@
                 </div>
             </template>
             <div class="writeBtn">
+                <div class="writeImg">
+                    <img src="/icon/writeBlog.svg" alt="">
+                </div>
                 <router-link to="/editorBlog">
                     写博客
                 </router-link>
@@ -96,25 +99,36 @@ export default {
     margin: 0 auto;
     align-items:center;
     min-height: 60px;
+    font-size: 18px;
     &>div{
-        margin-right: 10px;
+        margin-right: 20px;
         cursor: pointer;
+        >a{
+            color: #333;
+        }
     }
     .githubIcon{
         width: 24px;
     }
+    .writeImg{
+        display: inline-block;
+        width: 20px;
+        vertical-align: middle;
+    }
 }
 .writeBtn{
-    margin-right: 20px;
+    margin-right: 26px;
+    font-weight: bolder;
     >a{   
-        color: #999999;
+        color: #043f61 !important;
+    }
+    &:hover{
+        transform: scale(1.1);
     }
 }
 .header{
     width: 60px;
     height: 60px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center center;
+    @include headCR;
 }
 </style>

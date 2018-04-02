@@ -24,7 +24,7 @@ export default {
        value:{type:[String,Number], default:''}
     },
     mounted(){
-        window.addEventListener('click',this.closeBtn)
+        document.addEventListener('click',this.closeBtn)
     },
     data(){
       return {
@@ -58,7 +58,7 @@ export default {
         }
     },
     destroyed(){
-        window.removeEventListener('click',this.closeBtn);
+        document.removeEventListener('click',this.closeBtn);
     }
 }
 </script>

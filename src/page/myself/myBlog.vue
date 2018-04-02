@@ -19,8 +19,9 @@
                 空空如也什么也木有~，快去写一个吧！
             </div>
         </template>
-        <div>
+        <div class="more-wrap">
             <get-more-btn @getMore="getList" v-if="myBlogList.length >= 10"></get-more-btn>
+            <i class="el-icon-loading loading" v-if="loading"></i>
         </div>
     </div>
 </template>
@@ -70,8 +71,10 @@ export default {
                     limit:this.myBlogList.length+10
                 }
             }
+            this.loading = true;
             this.$getApi.post(params)
             .then(data=>{
+                this.loading = false;
                 if( data.status === 'success' ){
 
                     this.myBlogList = this.myBlogList.concat(data.data);
@@ -90,7 +93,8 @@ export default {
     data(){
         return{
             myBlogList:[],
-            showNone:false
+            showNone:false,
+            loading:true
         }
     },
     created(){
@@ -119,6 +123,12 @@ export default {
             width: 60px;
             height: 60px;
             margin-right: 16px;
+        }
+    }
+    .more-wrap{
+        text-align: center;
+        .loading{
+            font-size: 30px;
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="blog-detail">
+    <div class="blog-detail"  v-loading="detailLoading">
         <h1 class="title">
             {{ blog.title }}
         </h1>
@@ -15,6 +15,7 @@
         <div>
             <div class="comments-title">评论</div>
                 <messageBoard
+                    v-loading="commentsLoading"
                     placeholder="请输入评论内容"
                     leftBtn="评论"
                     v-model="text"
@@ -94,7 +95,9 @@ export default {
             text:'',
             blog:{
                 user:{}
-            }
+            },
+            detailLoading:true,
+            commentsLoading:false
         }
     },
     computed:{
@@ -119,8 +122,10 @@ export default {
                     commentsName:this.$store.state.userInfo.username
                 }
             }
+            this.commentsLoading = true;
             this.$getApi.post(params)
             .then((data)=>{
+                this.commentsLoading = false;
                 if(data.status === 'success'){
                     this.text = '';
                     let comments = data.data;
@@ -218,9 +223,10 @@ export default {
                     id:id
                 }
             }
+            this.detailLoading = true;
             this.$getApi.post(params)
             .then((data)=>{
-                console.log(data);
+                this.detailLoading = false;
                 if(data.status === 'success'){
                     this.blog = data.data;
                 }

@@ -18,7 +18,7 @@
                 <span>{{ commentsLength }}</span>
             </div>
             <div class="edit" v-if='edit === true'>
-                <!-- <span @click.stop="$emit('edit')" class="editBtn">修改</span> -->
+                <span @click.stop="$emit('edit')" class="editBtn">修改</span>
                 <span @click.stop="$emit('delete')" class="deleteBtn">删除</span>
             </div>
         </div>

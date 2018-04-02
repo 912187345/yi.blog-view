@@ -1,10 +1,10 @@
 <template>
-  <div>
-      <div>
+  <div class="createBlog clearfix" v-loading.fullscreen.lock="commitLoading">
+      <div class="title">
           <el-input v-model="title" placeholder="请输入标题"></el-input>
       </div>
-      <editor v-model="content"></editor>
-      <el-button type="primary" @click="sendBolg()">提交</el-button>
+      <editor v-model="content" class="main"></editor>
+      <el-button type="primary" class="configBtn" @click="sendBolg()">提交</el-button>
   </div>
 </template>
 
@@ -15,7 +15,8 @@ export default {
         return {
             content:'',
             title:'',
-            edit:this.$route.params.edit || false
+            edit:this.$route.params.edit || false,
+            commitLoading:false
         }
     },
     created(){
@@ -39,15 +40,17 @@ export default {
                 params.url = '/edit-blog';
                 params.param.blogId = this.$route.params.blogId;
             }
+            this.commitLoading = true;
             this.$getApi.post(params)
             .then(data=>{
+                this.commitLoading = false;
                 if( data.status === 'success' ){
                     if( this.edit === true ){
                         var blogId = this.$route.params.blogId;
                     }else{
                         var blogId = data.data.blogId
                     }
-                    this.$router.push({name:'blogDetail',params:{blogId:data.data.blogId}});
+                    this.$router.push({name:'blogDetail',params:{blogId:blogId}});
                 }else{
                     this.$message('提交失败，请稍后重试');
                 }
@@ -81,6 +84,28 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='scss' scoped>
+.createBlog{
+    @include blogList;
+    padding: 14px;
+    border-radius: 6px;
+    border:1px solid #ebeef5;
+    box-shadow:0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    .title{
+        margin-bottom: 10px;
+    }
+    .configBtn{
+        float: right;;
+    }
+    .main{
+        margin-bottom: 10px;
+    }
+}
 </style>
+<style>
+.ql-editor{
+    min-height: 400px;
+}
+</style>
+

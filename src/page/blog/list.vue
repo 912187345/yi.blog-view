@@ -12,8 +12,9 @@
                 @click='goDetail(item)'>
             </blogListItem>
         </template>
-        <div>
+        <div class="more-wrap">
             <get-more-btn @getMore="getList" v-if="blogList.length >= 10"></get-more-btn>
+            <i class="el-icon-loading loading" v-if="loading"></i>
         </div>
     </ul>
   </div>
@@ -28,7 +29,8 @@ export default {
     data(){
         return {
             text:'',
-            blogList:[]
+            blogList:[],
+            loading:false
         }
     },
     created(){
@@ -46,8 +48,10 @@ export default {
                     limit:this.blogList.length+10
                 }
             }
+            this.loading = true;
             this.$getApi.post(params)
             .then((data)=>{
+                this.loading = false;
                 if( data.status = 'success' ){
                     this.blogList = this.blogList.concat(data.data)
                 } else {
@@ -72,5 +76,11 @@ export default {
 .blog-list{
     @include blogList;
     background: none;
+    .more-wrap{
+        text-align: center;
+        .loading{
+            font-size: 30px;
+        }
+    }
 }
 </style>
