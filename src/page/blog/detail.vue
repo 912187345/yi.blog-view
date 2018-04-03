@@ -12,6 +12,7 @@
             </div>
         </div>
         <detail-content :content="blog.content"></detail-content>
+        <div class="lastupdateTime" v-if="blog.date !== blog.updateTime">最后更新时间：{{ blog.updateTime }}</div>
         <div>
             <div class="comments-title">评论</div>
                 <messageBoard
@@ -226,6 +227,7 @@ export default {
             this.detailLoading = true;
             this.$getApi.post(params)
             .then((data)=>{
+                console.log(data);
                 this.detailLoading = false;
                 if(data.status === 'success'){
                     this.blog = data.data;
@@ -329,6 +331,12 @@ export default {
     }
     .comments-list{
         margin-top: 36px;
+    }
+    .lastupdateTime{
+        text-align: right;
+        font-size: 15px;
+        color: #999;
+        margin-top: 10px;
     }
 }
 .comments-title{

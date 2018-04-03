@@ -21,7 +21,6 @@ Vue.use(ElementUI)
 import common from './common.js';
 Vue.prototype.$axios = axios;
 Vue.prototype.$getApi = common.getApi;
-console.log(store);
 const mvvm = new Vue({
   el: '#app',
   router,

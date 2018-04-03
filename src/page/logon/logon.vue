@@ -1,5 +1,5 @@
 <template>
-  <div class="logonWrap">
+  <div class="logon-wrap">
     <div class="content">
       <div class="title">
         <!-- 易.博客 -->
@@ -68,7 +68,7 @@
   }
 </script>
 <style lang='scss' scoped>
-.logonWrap{
+.logon-wrap{
   position: absolute;
   left: 0;
   top: 0;
@@ -80,7 +80,7 @@
     height: 300px;
     padding: 0 30px;
     background: #ffffff;
-    border-radius: 20px;
+    border-radius: 10px;
     position: relative;
     .userName{
       margin: 20px 0 18px;

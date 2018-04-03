@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="bg" :style="{ backgroundImage:`url(${userInfo.background})` }"></div>
+    <div id="bg" :style="{ backgroundImage:`url(${background})` }"></div>
     <top v-if='showbol'></top>
     <router-view/>
   </div>
@@ -12,7 +12,14 @@
     computed:{
       ...mapState({
             userInfo:'userInfo'
-        })
+        }),
+        background(){
+          if( this.userInfo && this.userInfo.background ){
+            return this.userInfo.background;
+          }else{
+            return "/bg/DEFAULT_BG.jpg"
+          }
+        }
     },
     data(){
       return {

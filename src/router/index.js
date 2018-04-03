@@ -2,16 +2,24 @@ import * as path from './path';
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import logon from '../page/logon/logon'
-import register from '../page/logon/register'
-import setting from '../page/myself/setting'
-import myBlog from '../page/myself/myBlog'
+const logon = r => require.ensure([], () => r(require('../page/logon/logon')), 'logon');
+const register = r => require.ensure([], () => r(require('../page/logon/register')), 'register');
+const setting = r => require.ensure([], () => r(require('../page/myself/setting')), 'setting');
+const myBlog = r => require.ensure([], () => r(require('../page/myself/myBlog')), 'myBlog');
+// import logon from '../page/logon/logon'
+// import register from '../page/logon/register'
+// import setting from '../page/myself/setting'
+// import myBlog from '../page/myself/myBlog'
 
-import msgBoard  from '../page/messageBoard/messageBoard'
+const msgBoard = r => require.ensure([], () => r(require('../page/messageBoard/messageBoard')), 'msgBoard');
+// import msgBoard  from '../page/messageBoard/messageBoard'
 
-import blogDetail from '../page/blog/detail'
-import blogList from '../page/blog/list'
-import editorBlog from '../page/blog/editorBlog'
+const blogDetail = r => require.ensure([], () => r(require('../page/blog/detail')), 'blogDetail');
+const blogList = r => require.ensure([], () => r(require('../page/blog/list')), 'blogList');
+const editorBlog = r => require.ensure([], () => r(require('../page/blog/editorBlog')), 'editorBlog');
+// import blogDetail from '../page/blog/detail'
+// import blogList from '../page/blog/list'
+// import editorBlog from '../page/blog/editorBlog'
 
 import store from '../store/index';
 Vue.use(Router)
