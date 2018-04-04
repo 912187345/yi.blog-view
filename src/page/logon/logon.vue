@@ -19,7 +19,6 @@
 </template>
 <script>
   import axios from 'axios';
-  import test from '../test.vue';
   import editor from '../../components/editor'
   export default{
     data(){
@@ -62,7 +61,6 @@
       }
     },
     components:{
-      test,
       editor
     }
   }

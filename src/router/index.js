@@ -6,20 +6,14 @@ const logon = r => require.ensure([], () => r(require('../page/logon/logon')), '
 const register = r => require.ensure([], () => r(require('../page/logon/register')), 'register');
 const setting = r => require.ensure([], () => r(require('../page/myself/setting')), 'setting');
 const myBlog = r => require.ensure([], () => r(require('../page/myself/myBlog')), 'myBlog');
-// import logon from '../page/logon/logon'
-// import register from '../page/logon/register'
-// import setting from '../page/myself/setting'
-// import myBlog from '../page/myself/myBlog'
 
 const msgBoard = r => require.ensure([], () => r(require('../page/messageBoard/messageBoard')), 'msgBoard');
-// import msgBoard  from '../page/messageBoard/messageBoard'
 
 const blogDetail = r => require.ensure([], () => r(require('../page/blog/detail')), 'blogDetail');
 const blogList = r => require.ensure([], () => r(require('../page/blog/list')), 'blogList');
 const editorBlog = r => require.ensure([], () => r(require('../page/blog/editorBlog')), 'editorBlog');
-// import blogDetail from '../page/blog/detail'
-// import blogList from '../page/blog/list'
-// import editorBlog from '../page/blog/editorBlog'
+
+const page404 = r => require.ensure([], () => r(require('../page/404')), 'page404');
 
 import store from '../store/index';
 Vue.use(Router)
@@ -67,6 +61,11 @@ const route =  new Router({
       path:'/myBlog',
       name:'myBlog',
       component:myBlog
+    },
+    {
+      path: '*', 
+      name:'page404',
+      component: page404 
     }
   ]
 })
@@ -75,7 +74,7 @@ route.beforeEach((to, from, next)=>{
   let token = localStorage.getItem('token') || store.state.userToken;
   if( !token && url.indexOf(to.name) < 0 ){
 
-    next({name:'logon'});
+    next({name:'blogList'});
   }else{
 
     next();

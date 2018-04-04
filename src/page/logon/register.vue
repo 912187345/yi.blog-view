@@ -41,6 +41,10 @@ export default {
                     return;
                 }
             }
+            if( !(/[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/.test(this.param.email)) ){
+                this.$message('请输入正确的邮箱');
+                return;
+            }
             let params = {
                 url:'/register',
                 param:this.param

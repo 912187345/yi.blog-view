@@ -13,7 +13,7 @@
             </blogListItem>
         </template>
         <div class="more-wrap">
-            <get-more-btn @getMore="getList" v-if="blogList.length >= 10"></get-more-btn>
+            <get-more-btn @getMore="getList" v-if="blogList.length > 10"></get-more-btn>
             <i class="el-icon-loading loading" v-if="loading"></i>
         </div>
     </ul>
@@ -52,7 +52,7 @@ export default {
             this.$getApi.post(params)
             .then((data)=>{
                 this.loading = false;
-                if( data.status = 'success' ){
+                if( data.status === 'success' ){
                     this.blogList = this.blogList.concat(data.data)
                 } else {
 

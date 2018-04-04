@@ -227,7 +227,6 @@ export default {
             this.detailLoading = true;
             this.$getApi.post(params)
             .then((data)=>{
-                console.log(data);
                 this.detailLoading = false;
                 if(data.status === 'success'){
                     this.blog = data.data;

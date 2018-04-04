@@ -20,7 +20,7 @@
             </div>
         </template>
         <div class="more-wrap">
-            <get-more-btn @getMore="getList" v-if="myBlogList.length >= 10"></get-more-btn>
+            <get-more-btn @getMore="getList" v-if="myBlogList.length > 10"></get-more-btn>
             <i class="el-icon-loading loading" v-if="loading"></i>
         </div>
     </div>

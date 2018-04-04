@@ -10,10 +10,11 @@
                 :data="uploadParams"
                 :on-success="uploadHeadSuccess"
                 :on-error="uploadError"
+                :before-upload="beforeUploadHead"
                 :limit="1">
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过1MB</div>
             </el-upload>
         </div>
         <div class="line">
@@ -26,10 +27,11 @@
                 :data="uploadParams"
                 :on-success="uploadBGSuccess"
                 :on-error="uploadBGError"
+                :before-upload="beforeUploadBg"
                 :limit="1">
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">将图片拖到此处，或<em>点击上传</em></div>
-                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件</div>
+                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2MB</div>
             </el-upload>
         </div>
         <div class="line" @click="edit('username')">
@@ -149,6 +151,28 @@ import {mapState} from 'vuex'
                         message: '取消修改'
                     });       
             });
+        },
+        beforeUploadHead(file){
+            const isJPG = file.type === 'image/jpeg';
+            const isLtS = file.size / 1024 / 1024 < 1;
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 格式!');
+            }
+            if (!isLtS) {
+                this.$message.error('上传头像图片大小不能超过 1MB!');
+            }
+            return isJPG && isLtS
+        },
+        beforeUploadBg(file){
+            const isJPG = file.type === 'image/jpeg';
+            const isLtS = file.size / 1024 / 1024 < 2;
+            if (!isJPG) {
+                this.$message.error('上传背景图片只能是 JPG 格式!');
+            }
+            if (!isLtS) {
+                this.$message.error('上传背景图片大小不能超过 2MB!');
+            }
+            return isJPG && isLtS
         }
     }
   }
