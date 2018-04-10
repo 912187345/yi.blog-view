@@ -24,7 +24,7 @@
 import messageBoard from '../messageBoard/messageBoard'
 import blogListItem from '../../components/blogListItem'
 import getMoreBtn from '../../components/getMoreBtn';
-import {mapState} from 'vuex'
+import {mapState,mapActions} from 'vuex'
 export default {
     data(){
         return {
@@ -37,19 +37,17 @@ export default {
         this.getList();
     },
     methods:{
+        ...mapActions({getBlogList:'getBlogList'}),
         goDetail(item){
             this.$router.push({name:'blogDetail',params:{blogId:item.blogId}})
         },
         getList(){
-            let params = {
-                url:'/get-blog',
-                param:{
+            let param = {
                     offset:this.blogList.length,
                     limit:this.blogList.length+10
                 }
-            }
             this.loading = true;
-            this.$getApi.post(params)
+            this.getBlogList(param)
             .then((data)=>{
                 this.loading = false;
                 if( data.status === 'success' ){

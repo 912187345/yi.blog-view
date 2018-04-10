@@ -20,6 +20,7 @@
 <script>
   import axios from 'axios';
   import editor from '../../components/editor'
+  import {mapActions} from 'vuex'
   export default{
     data(){
       return {
@@ -34,30 +35,28 @@
     mounted(){
     },
     methods:{
+      ...mapActions({service_logon:'logon'}),
       logon(){
         if( !this.pwd ){ return }
         var self = this;
-        var params = {
-            url:'/logon',
-            param:{
-              user:this.userName,
-              pwd:this.pwd
-          }
+        var param={
+            user:this.userName,
+            pwd:this.pwd
         }
-        this.$getApi.post(params)
-          .then(( data )=>{
-            console.log('logon',data);
-            if(data.status === 'success'){
-              this.$store.commit('setUserInfo',data.data);
-              this.$router.push({name:'blogList'});
-            }else{
-              
-              this.$notify.error({
-                title: '错误',
-                message: data.errMsg
-              });
-            }
-          })
+        this.service_logon(param)
+        .then(( data )=>{
+          if(data.status === 'success'){
+
+            this.$store.commit('setUserInfo',data.data);
+            this.$router.push({name:'blogList'});
+          }else{
+            
+            this.$notify.error({
+              title: '错误',
+              message: data.errMsg
+            });
+          }
+        })
       }
     },
     components:{

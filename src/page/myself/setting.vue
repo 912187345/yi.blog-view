@@ -5,7 +5,7 @@
             <el-upload
                 class="upload-demo"
                 drag
-                action="/api/upload-head-image"
+                action="/usersetting/upload-head-image"
                 :file-list="fileList"
                 :data="uploadParams"
                 :on-success="uploadHeadSuccess"
@@ -22,7 +22,7 @@
             <el-upload
                 class="upload-demo"
                 drag
-                action="/api/set-background"
+                action="/usersetting/set-background"
                 :file-list="fileListGB"
                 :data="uploadParams"
                 :on-success="uploadBGSuccess"
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState,mapActions} from 'vuex'
  export default {
     data() {
       return {
@@ -65,6 +65,7 @@ import {mapState} from 'vuex'
         }
     },
     methods: {
+        ...mapActions({editUser:'editUser'}),
         uploadHeadSuccess(res,file){
             if( res.status === 'success' ){
                 this.$store.commit('setUserHead',res.data.headImg);
@@ -103,7 +104,7 @@ import {mapState} from 'vuex'
                     break;
                 case 'email':
                     tips = '请输入新的邮箱地址';
-                    errMes = '请输入内容';
+                    errMes = '请输入正确的邮箱';
                     rex = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/;
                     break;
             }
@@ -114,13 +115,10 @@ import {mapState} from 'vuex'
                     inputErrorMessage: errMes
                 }).then(({ value }) => {
                     let params = {
-                        url:'/edit-user',
-                        param:{
                             type:type,
                             value:value
                         }
-                    }
-                    this.$getApi.post(params)
+                    this.editUser(params)
                     .then((rst)=>{
                         if( rst.status == 'success' ){
                             let userInfo = this.userInfo;
@@ -141,15 +139,15 @@ import {mapState} from 'vuex'
                     })
                 },err=>{
                     this.$message({
-                        type: 'warning',
-                        message: '修改失败，请稍后重试'
-                    });       
+                        type: 'info',
+                        message: '取消修改'
+                    });      
                 })
                 .catch(() => {
                     this.$message({
-                        type: 'info',
-                        message: '取消修改'
-                    });       
+                        type: 'warning',
+                        message: '修改失败，请稍后重试'
+                    });
             });
         },
         beforeUploadHead(file){

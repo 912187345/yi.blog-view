@@ -6,11 +6,15 @@ Vue.use(Vuex);
 
 import * as types from './blogType';
 import commom from '../common';
+import service from './service';
 let getApi = commom.getApi;
 const token = localStorage.getItem('token');
 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 let default_bg = '/bg/DEFAULT_BG.jpg';
 export default new Vuex.Store({
+    modules:{
+        service:service
+    },
     state:{
         userInfo:userInfo,
         userToken:token,
@@ -40,9 +44,6 @@ export default new Vuex.Store({
             state.userInfo.background = data;
             localStorage.setItem('userInfo',JSON.stringify(state.userInfo));
         }
-    },
-    actions:{
-
     },
     getters:{
         userInfo(state){

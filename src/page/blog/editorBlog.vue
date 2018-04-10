@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import editor from '../../components/editor'
+import editor from '../../components/editor';
+import {mapActions} from 'vuex';
 export default {
     data(){
         return {
@@ -25,23 +26,23 @@ export default {
         }
     },
     methods:{
+        ...mapActions({addBlog:'addBlog',get_blog_by_id:'getBlogById'}),
         sendBolg(){
             if( !this.content || !this.title ){
                 return this.$message('请输入标题和内容');
             };
             let params = {
-                url:'/add-blog',
                 param:{
                     text:this.content,
                     title:this.title
                 }
             }
             if( this.edit === true ){
-                params.url = '/edit-blog';
+                params.type = 'edit';
                 params.param.blogId = this.$route.params.blogId;
             }
             this.commitLoading = true;
-            this.$getApi.post(params)
+            this.addBlog(params)
             .then(data=>{
                 this.commitLoading = false;
                 if( data.status === 'success' ){
@@ -60,12 +61,9 @@ export default {
         },
         getBlogById(){
             let params = {
-                url:'/get-blog-by-id',
-                param:{
-                    id:this.$route.params.blogId
+                    id:this.$route.params.blogId                
                 }
-            }
-            this.$getApi.post(params)
+            this.get_blog_by_id(params)
             .then((data)=>{
                 if(data.status === 'success'){
                     this.content = data.data.content;

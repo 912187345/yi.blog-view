@@ -111,12 +111,17 @@ export default {
         this.getBlogById(this.id);
     },
     methods:{
+        ...mapActions({
+                get_blog_by_id:'getBlogById',
+                blogComments:'blogComments',
+                delete_comments:'deleteComments',
+                replyComments:'replyComments'
+            }),
         sendComments(){
             if( !this.text ){
                 return  alert('输入内容啊哥~')
             }
             let params = {
-                url:'/blog-comments',
                 param:{
                     text:this.text,
                     blogId:this.blog.blogId,
@@ -124,7 +129,7 @@ export default {
                 }
             }
             this.commentsLoading = true;
-            this.$getApi.post(params)
+            this.blogComments(params)
             .then((data)=>{
                 this.commentsLoading = false;
                 if(data.status === 'success'){
@@ -154,7 +159,6 @@ export default {
                     toToken = '';
                 }
                 let params = {
-                    url:'/reply-comments',
                     param:{
                         toToken:toToken,
                         fromToken:fromToken,
@@ -163,7 +167,7 @@ export default {
                         blogId:this.blog.blogId
                     }
                 }
-                this.$getApi.post(params)
+                this.replyComments(params)
                 .then(rst=>{
                     if( rst.status === 'success' ){
                         if(!this.blog.comments[index].replycomments){
@@ -194,12 +198,11 @@ export default {
         },
         deleteComments(item){
             let params = {
-                url:'/delete-comments',
                 param:{
                     commentsId:item.id
                 }
             }
-            this.$getApi.post(params)
+            this.delete_comments(params)
             .then(data=>{
                 if( data.status === 'success' ){
                     this.blog.comments.forEach((ele, index) => {
@@ -219,13 +222,10 @@ export default {
         },
         getBlogById(id){
             let params = {
-                url:'/get-blog-by-id',
-                param:{
                     id:id
                 }
-            }
             this.detailLoading = true;
-            this.$getApi.post(params)
+            this.get_blog_by_id(params)
             .then((data)=>{
                 this.detailLoading = false;
                 if(data.status === 'success'){
@@ -282,8 +282,8 @@ export default {
         >li{
             display: flex;
             position: relative;
-            margin-bottom: 8px;
-            padding-bottom: 8px;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
             border-bottom:1px solid $gray;
             &:last-child{
                 border-bottom: none;
@@ -373,6 +373,7 @@ export default {
         top: 10px;
         >a{
             color: #666666;
+            margin-left: 6px;
         }
     }
     .date{

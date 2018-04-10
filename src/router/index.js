@@ -70,7 +70,7 @@ const route =  new Router({
   ]
 })
 route.beforeEach((to, from, next)=>{
-  let url = ['logon','register'] ; //不需要token也可以通行的page;
+  let url = ['logon','register','blogDetail']; //不需要token也可以通行的page;
   let token = localStorage.getItem('token') || store.state.userToken;
   if( !token && url.indexOf(to.name) < 0 ){
 

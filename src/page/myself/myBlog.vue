@@ -27,10 +27,12 @@
 </template>
 
 <script>
-import blogListItem from '../../components/blogListItem'
+import blogListItem from '../../components/blogListItem';
 import getMoreBtn from '../../components/getMoreBtn';
+import {mapActions} from 'vuex'
 export default {
     methods:{
+        ...mapActions({getBlogList:'getBlogList',delBlog:'deleteBlog'}),
         editBlog(item){
             this.$router.push({name:'editorBlog',params:{blogId:item.blogId,edit:true}})
         },
@@ -41,17 +43,17 @@ export default {
                 type: 'warning'
             }).then(()=>{
                 let params = {
-                    url:'/delete-blog',
-                    param:{
-                        blogId:item.blogId
-                    }
+                    blogId:item.blogId
                 }
-                this.$getApi.post(params)
+                this.delBlog(params)
                 .then((rst)=>{
                     if( rst.status === 'success' ){
                         for( let i = 0, len = this.myBlogList.length; i < len; i++ ){
                             if( item.blogId === this.myBlogList[i].blogId ){
                                 this.myBlogList.splice(i,1);
+                                if( this.myBlogList.length === 0 ){
+                                    this.showNone = true;
+                                }
                                 break;
                             }
                         }
@@ -64,15 +66,12 @@ export default {
         },
         getList(){
             let params = {
-                url:'/get-blog',
-                param:{
                     myBlog:true,
                     offset:this.myBlogList.length,
                     limit:this.myBlogList.length+10
                 }
-            }
             this.loading = true;
-            this.$getApi.post(params)
+            this.getBlogList(params)
             .then(data=>{
                 this.loading = false;
                 if( data.status === 'success' ){

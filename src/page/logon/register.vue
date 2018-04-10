@@ -22,6 +22,7 @@
 </template>
 <script>
 import axios from 'axios';
+import {mapActions} from 'vuex';
 export default {
     data(){
         return{
@@ -34,6 +35,7 @@ export default {
         }
     },
     methods:{
+        ...mapActions({register:'register'}),
         submit(){
             for( let i in this.param ){
                 if(!this.param[i]){
@@ -45,11 +47,7 @@ export default {
                 this.$message('请输入正确的邮箱');
                 return;
             }
-            let params = {
-                url:'/register',
-                param:this.param
-            }
-            this.$getApi.post(params)
+            this.register(this.param)
             .then(data=>{
                 if( data.status === 'success' ){
 
