@@ -2,7 +2,7 @@
     <div id="top">
         <div class="top">
             <div class="githubIcon">
-                <a href="https://github.com/912187345/yi.blog-view">
+                <a href="https://github.com/912187345/">
                     <img src="/icon/GitHub.svg" alt="github">
                 </a>
             </div>
