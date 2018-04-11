@@ -142,6 +142,9 @@ export default {
                     comments.commentsDate = data.data.date;
                     comments.replycomments=[]
                     this.blog.comments.push(comments);
+                }else{
+                    this.commentsLoading = false;
+                    this.$message('提交失败，请稍后重试'); 
                 }
             })
         },

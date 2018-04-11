@@ -53,9 +53,11 @@ export default {
                     }
                     this.$router.push({name:'blogDetail',params:{blogId:blogId}});
                 }else{
+                    this.commitLoading = false;
                     this.$message('提交失败，请稍后重试');
                 }
             },err=>{
+                this.commitLoading = false;
                 this.$message('提交失败，请稍后重试');
             })
         },
