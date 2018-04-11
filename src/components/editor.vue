@@ -65,6 +65,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='scss'>
+.quill-editor{
+    .ql-link{
+        display: none !important;
+    }
+}
 </style>
