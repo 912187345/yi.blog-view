@@ -21,7 +21,6 @@ Vue.use(Router)
 const route =  new Router({
   mode:'hash',
   routes: [
-    { path: '/', redirect: '/blogList' },
     {
       path: '/logon',
       name: 'logon',
@@ -62,6 +61,7 @@ const route =  new Router({
       name:'myBlog',
       component:myBlog
     },
+    { path: '/', redirect: '/blogList' },
     {
       path: '*', 
       name:'page404',
@@ -70,7 +70,7 @@ const route =  new Router({
   ]
 })
 route.beforeEach((to, from, next)=>{
-  let url = ['logon','register','blogDetail']; //不需要token也可以通行的page;
+  let url = ['logon','register','blogDetail','blogList']; //不需要token也可以通行的page;
   let token = localStorage.getItem('token') || store.state.userToken;
   if( !token && url.indexOf(to.name) < 0 ){
 
