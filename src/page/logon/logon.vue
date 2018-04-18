@@ -30,13 +30,13 @@
         errMsg:''
       }
     },
-    created(){
-    },
     mounted(){
+      document.addEventListener('keydown',this.logon)
     },
     methods:{
       ...mapActions({service_logon:'logon'}),
-      logon(){
+      logon(event){
+        if( event && event.keyCode !== 13 ){ return }
         if( !this.pwd ){ return }
         var self = this;
         var param={
@@ -61,6 +61,9 @@
     },
     components:{
       editor
+    },
+    destroyed(){
+      document.removeEventListener('keydown',this.logon)
     }
   }
 </script>
