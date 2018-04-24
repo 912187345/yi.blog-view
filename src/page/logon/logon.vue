@@ -19,7 +19,6 @@
 </template>
 <script>
   import axios from 'axios';
-  import editor from '../../components/editor'
   import {mapActions} from 'vuex'
   export default{
     data(){
@@ -58,9 +57,6 @@
           }
         })
       }
-    },
-    components:{
-      editor
     },
     destroyed(){
       document.removeEventListener('keydown',this.logon)

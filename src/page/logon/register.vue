@@ -34,9 +34,13 @@ export default {
             }
         }
     },
+    mounted(){
+        document.addEventListener('keydown',this.submit)
+    },
     methods:{
         ...mapActions({register:'register'}),
-        submit(){
+        submit(event){
+            if( event && event.keyCode !== 13 ){ return }
             for( let i in this.param ){
                 if(!this.param[i]){
                     this.$message('请填写完整信息')
@@ -60,6 +64,9 @@ export default {
                 this.$message('注册失败，请稍后重试')
             })
         }
+    },
+    destroyed(){
+        document.removeEventListener('keydown',this.submit)
     }
 }
 </script>
