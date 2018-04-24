@@ -1,18 +1,35 @@
 <template>
-    <div>
+    <div class="quill-wrap">
         <quill-editor 
             v-model="content"
             ref="myQuillEditor"
-            :options="editorOption"
-            @blur="onEditorBlur($event)"
-            @focus="onEditorFocus($event)"
-            @ready="onEditorReady($event)">
+            :options="editorOption">
         </quill-editor>
     </div>
 </template>
 
 <script>
-import { quillEditor } from 'vue-quill-editor'
+
+import { quillEditor,Quill } from 'vue-quill-editor';
+import ImageDrop from './ImageDrop.js';
+
+Quill.register('modules/imageDrop', ImageDrop);
+var toolbarOptions = [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ 'header': 1 }, { 'header': 2 }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'direction': 'rtl' }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['clean'],
+      ['image', 'video']
+    ]
 export default {
     props:{
         placeholder:{type:String, default:'请输入内容'},
@@ -22,8 +39,13 @@ export default {
       return {
         content: '',
         editorOption: {
-          placeholder:this.placeholder
-        }
+          placeholder:this.placeholder,
+          modules:{
+            imageDrop:true,
+            toolbar: toolbarOptions
+          }
+          // imageResize: {}
+        },
       }
     },
     // manually control the data synchronization
@@ -56,19 +78,12 @@ export default {
             this.content = nV;
         }
     },
-    mounted() {
-      // console.log('this is current quill instance object', this.editor)
-    },
     components: {
         quillEditor
     }
 }
 </script>
 
-<style lang='scss'>
-.quill-editor{
-    .ql-link{
-        display: none !important;
-    }
-}
+<style>
+
 </style>
