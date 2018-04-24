@@ -80,6 +80,14 @@ export default {
     destroyed(){
         this.content = '';
         this.title = '';
+    },
+    watch:{
+        '$route'(nV){
+            if( nV.name === 'createBlog' ){
+                this.title = '';
+                this.content = '';
+            }
+        }
     }
 }
 </script>
@@ -103,9 +111,13 @@ export default {
     }
 }
 </style>
-<style>
+<style lang='scss'>
 .ql-editor{
     min-height: 400px;
+    img{
+        width:auto;
+        display:inline-block;
+    }
 }
 </style>
 

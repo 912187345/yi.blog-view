@@ -35,7 +35,7 @@
                 <div class="writeImg">
                     <img src="/icon/writeBlog.svg" alt="">
                 </div>
-                <router-link to="/editorBlog">
+                <router-link to="/createBlog">
                     写博客
                 </router-link>
             </div>

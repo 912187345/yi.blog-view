@@ -52,6 +52,11 @@ const route =  new Router({
       component:editorBlog
     },
     {
+      path:'/createBlog',
+      name:'createBlog',
+      component:editorBlog
+    },
+    {
       path:'/setting',
       name:'setting',
       component:setting
