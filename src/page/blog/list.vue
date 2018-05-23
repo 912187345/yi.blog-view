@@ -9,6 +9,7 @@
                 :userHeadImg="item.userHeadImg"
                 :date="item.date"
                 :commentsLength="item.commentsLength"
+                :collectionLength='item.collectionLength'
                 @click='goDetail(item)'>
             </blogListItem>
         </template>

@@ -9,14 +9,21 @@
                 </span>
                 <span>{{ username }}</span>
             </div>
-            <div class="date">
+            <div class="rightContent fr">
+                <div class="date">
                 <span>发布时间:</span>
                 <span>{{ date }}</span>
             </div>
-            <div class="comment">
-                <img src="/icon/comment.png" class="commentIcon" alt="">
+            <div class="comment marRight20">
+                <img src="/icon/comment.png" class="icon" alt="">
                 <span>{{ commentsLength }}</span>
             </div>
+            <div class="collection marRight20">
+                <img src="/icon/hart_cdcdcd.svg" class="icon" alt="">
+                <span>{{ collectionLength || 0 }}</span>
+            </div>
+            </div>
+            
             <div class="edit" v-if='edit === true'>
                 <span @click.stop="$emit('edit')" class="editBtn">修改</span>
                 <span @click.stop="$emit('delete')" class="deleteBtn">删除</span>
@@ -28,7 +35,7 @@
 <script>
 import headImg from './headImg'
 export default {
-    props:['title','username','userHeadImg','date','commentsLength','edit'],
+    props:['title','username','userHeadImg','date','commentsLength','edit','collectionLength'],
     components:{
         headImg
     }
@@ -56,7 +63,7 @@ export default {
     >h3{
         font-size: 20px;
     }
-    .commentIcon{
+    .icon{
         width: 20px;
         height: 20px;
         display: inline-block;
@@ -67,10 +74,10 @@ export default {
         .user{
             float: left;
         }
-        .comment,.date{
+        .fr{
             float: right;
         }
-        .comment{
+        .marRight20{
             margin-right: 20px;
         }
         >div>span{
@@ -96,6 +103,12 @@ export default {
                 transform: scale3d(1.1,1.1,1.1)
             }
         }
+    }
+    .rightContent{
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        margin-top: 8px;
     }
 }
 

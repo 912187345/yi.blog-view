@@ -10,3 +10,9 @@ export default {
     props:['content']
 }
 </script>
+
+<style>
+.ql-snow .ql-editor img{
+    width: auto;
+}
+</style>

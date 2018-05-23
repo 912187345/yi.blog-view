@@ -56,7 +56,8 @@ export default {
                     this.commitLoading = false;
                     this.$message('提交失败，请稍后重试');
                 }
-            },err=>{
+            })
+            .catch(err=>{
                 this.commitLoading = false;
                 this.$message('提交失败，请稍后重试');
             })

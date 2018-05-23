@@ -6,31 +6,37 @@
                     <img src="/icon/GitHub.svg" alt="github">
                 </a>
             </div>
+
             <template v-if="userToken !== 'undefined' && userToken">
                 <div @click="logout">
                     退出
                 </div>
-                <div @click="goSetting">
+                <div @click="goPage('setting')">
                     设置
                 </div>
-                <div @click="goMyBlog">
+                <div @click="goPage('myBlog')">
                     我的博客
+                </div>
+                <div @click="goPage('myCollection')">
+                    我的收藏
                 </div>
                 <el-tooltip class="item" effect="dark" content="可以自定义头像哦~" placement="bottom">
                     <div class="header" 
                         :style="{backgroundImage:`url(${userInfo.headImg})`}"
-                        @click="goSetting"
+                        @click="goPage('setting')"
                     ></div>
                 </el-tooltip>
             </template>
+
             <template v-else>
-                <div class="register" @click="goRegister"> 
+                <div class="register" @click="goPage('register')"> 
                     注册
                 </div>
-                <div class="logon" @click="logon">
+                <div class="logon" @click="goPage('logon')">
                     登录
                 </div>
             </template>
+
             <div class="writeBtn">
                 <div class="writeImg">
                     <img src="/icon/writeBlog.svg" alt="">
@@ -39,6 +45,7 @@
                     写博客
                 </router-link>
             </div>
+
             <div>
                 <router-link to="/blogList">
                     首页
@@ -70,17 +77,8 @@ export default {
                 this.$router.push({name:'blogList'});
             })
         },
-        goSetting(){
-            this.$router.push({name:'setting'})
-        },
-        goMyBlog(){
-            this.$router.push({name:'myBlog'})
-        },
-        goRegister(){
-            this.$router.push({name:'register'})
-        },
-        logon(){
-            this.$router.push({name:'logon'})
+        goPage(pageName){
+            this.$router.push({name:pageName})
         }
     }
 }

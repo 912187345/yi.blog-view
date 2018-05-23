@@ -8,16 +8,17 @@
                     :date="item.date"
                     :commentsLength="item.commentsLength"
                     :edit=true
+                    :collectionLength='item.collectionLength'
                     @edit="editBlog(item)"
                     @delete="deleteBlog(item)"
                     @click='goDetail(item)'>
                 </blogListItem>
         </template>
         <template v-if='showNone'>
-            <div class="tips">
-                <img src="/icon/notFind.svg" alt="">
-                空空如也什么也木有~，快去写一个吧！
-            </div>
+            <tips
+                content='空空如也什么也木有~，快去写一个吧！'
+                imgSrc='/icon/notFind.svg'
+            />
         </template>
         <div class="more-wrap">
             <get-more-btn @getMore="getList" v-if="myBlogList.length > 10"></get-more-btn>
@@ -29,6 +30,7 @@
 <script>
 import blogListItem from '../../components/blogListItem';
 import getMoreBtn from '../../components/getMoreBtn';
+import tips from '../../components/noListTips';
 import {mapActions} from 'vuex'
 export default {
     methods:{
@@ -101,7 +103,8 @@ export default {
     },
     components:{
         blogListItem,
-        getMoreBtn
+        getMoreBtn,
+        tips
     }
 }
 </script>
@@ -110,20 +113,6 @@ export default {
 .myBlog-list{
     @include blogList;
     background: none;
-    .tips{
-        background: #ffffff;
-        text-align: center;
-        font-size: 20px;
-        display: flex;
-        justify-content:center;
-        align-items: center;
-        height: 400px;
-        >img{
-            width: 60px;
-            height: 60px;
-            margin-right: 16px;
-        }
-    }
     .more-wrap{
         text-align: center;
         .loading{

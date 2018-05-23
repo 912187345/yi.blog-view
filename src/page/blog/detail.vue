@@ -1,5 +1,10 @@
 <template>
     <div class="blog-detail"  v-loading="detailLoading">
+        <div class="hart" @click="collection()">
+            <i class="hartIcon" :style="{backgroundImage:`url(/icon/hart_gray.svg)`}"></i>
+            <i class="hartIcon" :class="{ active:!blog.collection.collectionBol }" :style="{backgroundImage:`url(/icon/hart_active.svg)`}"></i>
+            <div class="num">{{this.blog.collection.collectionNum}}</div>
+        </div>
         <h1 class="title">
             {{ blog.title }}
         </h1>
@@ -11,7 +16,7 @@
                 <div class="date">{{ blog.date }}</div>
             </div>
         </div>
-        <detail-content :content="blog.content"></detail-content>
+        <detail-content :content="blog.content" />
         <div class="lastupdateTime" v-if="blog.date !== blog.updateTime">最后更新时间：{{ blog.updateTime }}</div>
         <div>
             <div class="comments-title">评论</div>
@@ -20,74 +25,23 @@
                     placeholder="请输入评论内容"
                     leftBtn="评论"
                     v-model="text"
-                    @configBtn="sendComments()">
-                </messageBoard>
-                <ul class="comments-list">
-                    <li v-for="(item,j) in blog.comments" class="comments-item" :key="item.id">
-                        <div class="headImg">
-                            <headImg
-                                :src="item.commentsUser.headImg"
-                                :w="'35px'"
-                            ></headImg>
-                        </div>
-                        <div class="content">
-                            <div class="userName">
-                                {{ item.commentsUser.username }}
-                            </div>
-                            <div class="comments-content">
-                                {{ item.commentsContent }}
-                            </div>
-                            <div class="date">
-                                <div class="comments-date">
-                                    发布时间：{{ item.commentsDate }}
-                                </div>
-                                <span>{{ item.replycomments.length }}条评论</span>
-                                <div class="reply-icon">
-                                    <img src="/icon/reply.svg">
-                                </div>
-                            </div>
-                            <div class="btnWrap">
-                                <a href="javascript:;" @click="reply(item,'replyMsg',j)">评论</a>
-                                <a href="javasctipt:;" 
-                                    v-if="userToken === item.commentsToken" 
-                                    @click="deleteComments(item)">
-                                删除</a>
-                            </div>
-                            <ul class="reply-wrap" v-show="item.replycomments.length !== 0">
-                                <li v-for="replyItem in item.replycomments" :key="replyItem.commentId">
-                                    <div class="headImg left" :style="{backgroundImage:`url(${replyItem.fromUser.headImg})`}">
-                                    </div>
-                                    <div class="right">
-                                        <div class="reply-user">
-                                            {{ replyItem.fromUser.username }}
-                                            <template v-if="replyItem.toUser">&nbsp;回复&nbsp;&nbsp;
-                                                <div class="headImg" :style="{backgroundImage:`url(${replyItem.toUser.headImg})`}">
-                                                </div>
-                                                {{ replyItem.toUser.username }}
-                                            </template>
-                                        </div>
-                                        <div>
-                                            <p class="reply-content"> {{ replyItem.replyText }} </p>
-                                            <div class="reply-date">
-                                            {{ replyItem.replyDate }} 
-                                            </div>
-                                        </div>
-                                        <a href="javascript:;" class="replyBtn" @click="reply(replyItem,'reply',j)">回复</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
+                    @configBtn="sendComments()" 
+                />
+                <comments
+                    :comments='blog.comments'
+                    :userToken='userToken'
+                    @deleteComments='deleteComments'
+                    @reply='reply'
+                />
         </div>
-        
     </div>
 </template>
 
 <script>
 import messageBoard from '../messageBoard/messageBoard';
 import detailContent from './detailContent';
-import headImg from '../../components/headImg'
+import headImg from '../../components/headImg';
+import comments from '../../components/comments';
 import {mapState,mapActions} from 'vuex';
 export default {
     data(){
@@ -95,7 +49,8 @@ export default {
             id:this.$route.params.blogId,
             text:'',
             blog:{
-                user:{}
+                user:{},
+                collection:{}
             },
             detailLoading:true,
             commentsLoading:false
@@ -115,7 +70,8 @@ export default {
                 get_blog_by_id:'getBlogById',
                 blogComments:'blogComments',
                 delete_comments:'deleteComments',
-                replyComments:'replyComments'
+                replyComments:'replyComments',
+                service_collection:'collection'
             }),
         sendComments(){
             if( !this.text ){
@@ -139,7 +95,7 @@ export default {
                         headImg:this.$store.state.userInfo.headImg,
                         username:this.$store.state.userInfo.username
                     }
-                    comments.commentsDate = data.data.date;
+                    comments.commentsDate = data.data.commentsDate;
                     comments.replycomments=[]
                     this.blog.comments.push(comments);
                 }else{
@@ -235,12 +191,26 @@ export default {
                     this.blog = data.data;
                 }
             })
+        },
+        collection(){
+            if( this.userToken === undefined ){ return }
+            if( this.blog.collection.collectionBol ){
+                this.blog.collection.collectionNum--;
+                this.service_collection({type:'cancel',blogId:this.blog.blogId})
+                .then(data=>{})
+            }else{
+                this.blog.collection.collectionNum++;
+                this.service_collection({type:'add',blogId:this.blog.blogId})
+                .then(data=>{})
+            }
+            this.blog.collection.collectionBol = !this.blog.collection.collectionBol;
         }
     },
     components:{
         messageBoard,
         detailContent,
-        headImg
+        headImg,
+        comments
     }
 }
 </script>
@@ -339,6 +309,44 @@ export default {
         font-size: 15px;
         color: #999;
         margin-top: 10px;
+    }
+    .hart{
+        position: fixed;
+        top: 260px;
+        left: 70px;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: #ebeef5;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 1px solid #dbdbdb;
+        .active{
+            opacity: 0;
+        }
+        >.hartIcon{
+            display: block;
+            width: 22px;
+            height: 22px;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            @include center;
+        }
+        .num{
+            font-size: 10px;
+            color: #ffffff;
+            padding: 1px 6px;
+            border-radius: 8px;
+            background: #707070;
+            text-align: center;
+            position: absolute;
+            right: -10px;
+            top: -8px;
+        }
+    }
+    .hart:hover > .active{
+        opacity: 1;
     }
 }
 .comments-title{

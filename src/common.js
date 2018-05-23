@@ -37,6 +37,7 @@ var axiosFn = (method, params)=>{
         .then((data)=>{
         if( data.status === 200 ){
             if( data.data.status === 'Re' ){
+                rej(data.data);
                 return alert('请先登录');
             }
             res(data.data);

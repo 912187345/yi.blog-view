@@ -14,7 +14,7 @@ const blogList = r => require.ensure([], () => r(require('../page/blog/list')), 
 const editorBlog = r => require.ensure([], () => r(require('../page/blog/editorBlog')), 'editorBlog');
 
 const page404 = r => require.ensure([], () => r(require('../page/404')), 'page404');
-
+const myCollection = r => require.ensure([], () => r(require('../page/myself/myCollection')), 'myCollection');
 import store from '../store/index';
 Vue.use(Router)
 
@@ -67,6 +67,11 @@ const route =  new Router({
       component:myBlog
     },
     { path: '/', redirect: '/blogList' },
+    {
+      path:'/myCollection',
+      name:'myCollection',
+      component:myCollection
+    },
     {
       path: '*', 
       name:'page404',
